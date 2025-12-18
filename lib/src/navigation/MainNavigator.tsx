@@ -1,36 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { StatusBar, ActivityIndicator, View, I18nManager, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState } from 'react';
+import { View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import LoginScreen from '../screens/auth/LoginScreen';
-import SplashScreen from '../screens/auth/SplashScreen';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { useAppDispatch, useAppSelector } from '../redux/reduxHooks';
-import { setProfile } from '../redux/slices/profileSlice';
 import { rootState as RootState } from '../redux/store';
-import { navigationRef, processPendingNavigation } from '../../../RootNavigation';
+import { navigationRef } from '../../../RootNavigation';
 import HomeScreen from '../screens/home/HomeScreen';
 import { signOut } from '../redux/slices/authSlice';
 import { useThemeContext } from '../theme/ThemeContext';
 import Colors from '../theme/colors';
 
-const Stack = createStackNavigator();
 const MainStack = createStackNavigator();
 
 const MainNavigator: React.FC = () => {
-  const [loading, setLoading] = useState(true);
-  const [initialRoute, setInitialRoute] = useState<any>('Splash');
-  const [profileLoading, setProfileLoading] = useState(false); // Profile API
-  const selectedLanguage = useAppSelector(
-    (state: RootState) => state.profile.selectedLanguage,
-  );
   const dispatch = useAppDispatch();
-  const { setFontSizeOption, toggleTheme, theme, colors } = useThemeContext();
-  const isDark = theme === 'dark';
-  console.log("theme>>>>>",theme);
+  const { toggleTheme, theme } = useThemeContext();
   const handleLogout = () => {
     Alert.alert('Logout', 'Are you sure you want to logout?', [
       {
@@ -46,14 +32,6 @@ const MainNavigator: React.FC = () => {
       },
     ]);
   };
-
-  // const handleThemeToggle = () => {
-  //   const currentDarkMode = useAppSelector(
-  //     (state: RootState) => state.profile?.darkMode,
-  //   );
-  //   //dispatch(setProfile({ ...useAppSelector((state: RootState) => state.profile), darkMode: !currentDarkMode }));
-  // };
-
   const HeaderRightComponent = () => (
     <View style={{ flexDirection: 'row', marginRight: 15, gap: 30 }}>
       <TouchableOpacity onPress={()=>{
@@ -66,17 +44,7 @@ const MainNavigator: React.FC = () => {
       </TouchableOpacity>
     </View>
   );
-
-  // if (loading || profileLoading) {
-  //   return (
-  //     <View style={styles.loaderText}>
-  //       <ActivityIndicator size="large" color="#000" />
-  //     </View>
-  //   );
-  // }
-
-  const MainStackSet = () => {
-
+ const MainStackSet = () => {
   return (
     <MainStack.Navigator
       initialRouteName={"Home"}
@@ -104,7 +72,6 @@ const MainNavigator: React.FC = () => {
           title: 'Home',
           headerLeft: () => null,
           headerRight: () => <HeaderRightComponent />,
-          
           headerTitleStyle: {
             fontWeight: 'bold',
             fontSize: 18,
@@ -128,8 +95,3 @@ const MainNavigator: React.FC = () => {
 };
 
 export default MainNavigator;
-
-const styles = StyleSheet.create({
-  loaderText: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  main: { flex: 1, backgroundColor: '#2432B1' },
-});

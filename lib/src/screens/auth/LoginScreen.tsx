@@ -62,7 +62,7 @@ const LoginScreen = () => {
   }
   const [data, setData] = useState<textFields>({ email: '', password: '' });
   const [validate, setValidate] = useState<boolean>(false);
-  const [visibleEye, setVisibleEye] = useState(true);
+  const [visibleEye, setVisibleEye] = useState(false);
 
   const [error, setError] = useState<string | null>(null);
   // ✅ Load stored credentials

@@ -4,7 +4,6 @@ import * as Keychain from 'react-native-keychain';
 import { auth } from '../../firebase/config';
 import { Alert } from 'react-native';
 import Toast from 'react-native-toast-message';
-import { useNavigation } from '@react-navigation/native';
 
 interface Initial {
   loginToken: any;
@@ -48,7 +47,6 @@ export const signInUser: any = createAsyncThunk(
         body.password,
       );
       console.log('User Login Result:', result?.user?.uid);
-      //const verifyToken = result;
       Toast.show({
         type: 'success',
         text1: 'Logged in Successfully',

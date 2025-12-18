@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { StatusBar, ActivityIndicator, View, I18nManager, StyleSheet } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState } from 'react';
+import { StatusBar, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../screens/auth/LoginScreen';
@@ -8,32 +7,16 @@ import SplashScreen from '../screens/auth/SplashScreen';
 
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { useAppDispatch, useAppSelector } from '../redux/reduxHooks';
-import { setProfile } from '../redux/slices/profileSlice';
 import { rootState as RootState } from '../redux/store';
-import { navigationRef, processPendingNavigation } from '../../../RootNavigation';
+import {
+  navigationRef,
+  processPendingNavigation,
+} from '../../../RootNavigation';
 import SignUpScreen from '../screens/auth/SignUpScreen';
 
 const Stack = createStackNavigator();
 
 const AppNavigator: React.FC = () => {
-  const [loading, setLoading] = useState(true);
-  const [initialRoute, setInitialRoute] = useState<any>('Splash');
-  const [profileLoading, setProfileLoading] = useState(false); // Profile API
-  const selectedLanguage = useAppSelector(
-    (state: RootState) => state.profile.selectedLanguage,
-  );
-  const dispatch = useAppDispatch();
-
-  // if (loading || profileLoading) {
-  //   return (
-  //     <View style={styles.loaderText}>
-  //       <ActivityIndicator size="large" color="#000" />
-  //     </View>
-  //   );
-  // }
-
-  
-
   return (
     <SafeAreaProvider>
       <SafeAreaView
@@ -44,7 +27,7 @@ const AppNavigator: React.FC = () => {
           ref={navigationRef}
           onReady={() => {
             console.log('✅ Navigation is ready');
-            processPendingNavigation(); // 🔥 Process any queued navigations
+            processPendingNavigation();
           }}
         >
           <StatusBar
@@ -53,7 +36,7 @@ const AppNavigator: React.FC = () => {
             barStyle="dark-content"
           />
           <Stack.Navigator
-            initialRouteName={initialRoute} // 👈 Dynamic initial route
+            initialRouteName="Splash"
             screenOptions={{
               headerShown: false,
               cardStyle: { backgroundColor: 'transparent' },

@@ -3,7 +3,7 @@ import { View, StyleSheet, Image, SafeAreaViewBase, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { responsiveWidth } from '../../common/responsiveFontSize';
 
-const SplashScreen: React.FC = () => {
+const SplashScreen = () => {
   const navigation = useNavigation<any>();
   useEffect(() => {
     const timer = setTimeout(() => {
