@@ -47,6 +47,30 @@
         }
       }
     },
+    "@nozbe/watermelondb": {
+      "root": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@nozbe/watermelondb",
+      "name": "@nozbe/watermelondb",
+      "platforms": {
+        "ios": {
+          "podspecPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@nozbe/watermelondb/WatermelonDB.podspec",
+          "version": "0.28.0",
+          "configurations": [],
+          "scriptPhases": []
+        },
+        "android": {
+          "sourceDir": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@nozbe/watermelondb/native/android",
+          "packageImportPath": "import com.nozbe.watermelondb.WatermelonDBPackage;",
+          "packageInstance": "new WatermelonDBPackage()",
+          "buildTypes": [],
+          "componentDescriptors": [],
+          "cmakeListsPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@nozbe/watermelondb/native/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cxxModuleCMakeListsModuleName": null,
+          "cxxModuleCMakeListsPath": null,
+          "cxxModuleHeaderName": null,
+          "isPureCxxDependency": false
+        }
+      }
+    },
     "@react-native-async-storage/async-storage": {
       "root": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-async-storage/async-storage",
       "name": "@react-native-async-storage/async-storage",

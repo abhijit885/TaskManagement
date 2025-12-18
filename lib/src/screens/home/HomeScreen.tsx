@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import {
   View,
   Text,
@@ -7,7 +7,6 @@ import {
   Alert,
   ActivityIndicator,
 } from 'react-native';
-import firestore from '@react-native-firebase/firestore';
 import Toast from 'react-native-toast-message';
 import { useThemeContext } from '../../theme/ThemeContext';
 import {
@@ -23,14 +22,31 @@ import UserTableRow from './components/UserTableRow';
 import ListEmptyState from './components/ListEmptyState';
 import LoadingFooter from './components/LoadingFooter';
 
+// WatermelonDB imports
+import { syncService } from '../../database/watermelon';
+import Todo from '../../database/watermelon/models/Todo';
+
+interface UserItem {
+  id: string;
+  name: string;
+  age: number;
+  isChecked: boolean;
+  isSynced?: boolean;
+}
+
 const HomeScreen = () => {
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<UserItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [lastDoc, setLastDoc] = useState<any>(null);
-  const [hasMore, setHasMore] = useState(true);
+  const [isOnline, setIsOnline] = useState(true);
   const pageSize = 10;
-  const [newUser, setNewUser]: any = useState({
+  const [newUser, setNewUser] = useState<{
+    name: string;
+    age: string;
+    isChecked: boolean;
+    userId: string | null;
+    isEditing: boolean;
+  }>({
     name: '',
     age: '',
     isChecked: false,
@@ -43,10 +59,86 @@ const HomeScreen = () => {
   );
   const styles = useMemo(() => createStyles(theme), [theme, colors]);
 
+  // Initialize sync service and subscribe to events
   useEffect(() => {
-    getUsers();
+    // Initialize the sync service network listener
+    syncService.init();
+
+    // Load initial data from local DB
+    loadUsers();
+
+    // Try initial sync if online
+    performInitialSync();
+
+    // Subscribe to sync completion - auto refresh list when sync completes
+    const unsubscribeSyncComplete = syncService.onSyncComplete(() => {
+      console.log('Sync completed - refreshing list');
+      loadUsers();
+    });
+
+    // Subscribe to network changes
+    const unsubscribeNetworkChange = syncService.onNetworkChange((online) => {
+      setIsOnline(online);
+      if (online) {
+        Toast.show({
+          type: 'success',
+          text1: '🌐 You are online',
+          text2: 'Syncing your changes...',
+          visibilityTime: 3000,
+        });
+      } else {
+        Toast.show({
+          type: 'error',
+          text1: '📴 You are offline',
+          text2: 'Changes will be saved locally',
+          visibilityTime: 3000,
+        });
+      }
+    });
+
+    // Cleanup on unmount
+    return () => {
+      unsubscribeSyncComplete();
+      unsubscribeNetworkChange();
+      syncService.cleanup();
+    };
   }, []);
 
+  // Perform initial sync when app starts
+  const performInitialSync = async () => {
+    try {
+      const online = await syncService.checkConnection();
+      setIsOnline(online);
+      if (online) {
+        await syncService.fullSync();
+        await loadUsers();
+      }
+    } catch (error) {
+      console.log('Initial sync error:', error);
+    }
+  };
+
+  // Load users from local WatermelonDB
+  const loadUsers = async () => {
+    try {
+      setLoading(true);
+      const todos = await syncService.getTodos();
+      const usersList: UserItem[] = todos.map((todo: Todo) => ({
+        id: todo.id,
+        name: todo.name,
+        age: todo.age,
+        isChecked: todo.isChecked,
+        isSynced: todo.isSynced,
+      }));
+      setUsers(usersList);
+    } catch (error) {
+      console.log('Error loading users:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Add Todo - works offline! Saves locally first, syncs in background
   const addTodo = async () => {
     if (!newUser.name.trim()) {
       Alert.alert('Error', 'Please enter a name.');
@@ -60,145 +152,171 @@ const HomeScreen = () => {
       Alert.alert('Validation Error', 'Please enter a valid age number.');
       return;
     }
+
+    const nameToAdd = newUser.name;
+    const ageToAdd = parseInt(newUser.age);
+
+    // Clear form immediately for better UX
+    setNewUser({ name: '', age: '', isChecked: false, userId: null, isEditing: false });
+
     try {
-      const docRef = await firestore()
-        .collection('Todo')
-        .add({
-          name: newUser.name,
-          age: parseInt(newUser.age),
-          isChecked: false,
-        });
+      // Add to local DB (instant - never blocks)
+      const newTodo = await syncService.addTodo({
+        name: nameToAdd,
+        age: ageToAdd,
+        isChecked: false,
+      });
+
+      // Add to UI immediately
+      const newUserItem: UserItem = {
+        id: newTodo.id,
+        name: newTodo.name,
+        age: newTodo.age,
+        isChecked: newTodo.isChecked,
+        isSynced: newTodo.isSynced,
+      };
+
+      setUsers(prevUsers => [newUserItem, ...prevUsers]);
+
       Toast.show({
         type: 'success',
-        text1: 'User Added',
+        text1: '✅ User Added',
+        text2: isOnline ? 'Syncing in background...' : 'Saved locally',
+        visibilityTime: 2000,
       });
-      setUsers([{ id: docRef.id, name: newUser.name, age: parseInt(newUser.age), isChecked: false }, ...users]);
-      setNewUser({ name: '', age: '', isChecked: false });
     } catch (error) {
-      console.log('Error adding user: ', error);
+      console.log('Error adding user:', error);
+      Toast.show({
+        type: 'error',
+        text1: 'Error adding user',
+      });
     }
   };
 
+  // Update User - works offline! Updates locally first, syncs in background
   const updateUser = async (userId: string) => {
+    if (!userId) return;
+
+    const nameToUpdate = newUser.name;
+    const ageToUpdate = parseInt(newUser.age);
+
+    // Clear form immediately
+    setNewUser({ name: '', age: '', isChecked: false, userId: null, isEditing: false });
+
+    // Update UI immediately
+    setUsers(prevUsers =>
+      prevUsers.map(user =>
+        user.id === userId
+          ? { ...user, name: nameToUpdate, age: ageToUpdate, isSynced: false }
+          : user
+      )
+    );
+
     try {
-      await firestore()
-        .collection('Todo')
-        .doc(userId)
-        .update({
-          name: newUser.name,
-          age: parseInt(newUser.age),
-        });
-      getUsers();
+      // Update local DB (instant - never blocks)
+      await syncService.updateTodo(userId, {
+        name: nameToUpdate,
+        age: ageToUpdate,
+      });
+
       Toast.show({
         type: 'success',
-        text1: 'User Updated',
+        text1: '✅ User Updated',
+        text2: isOnline ? 'Syncing in background...' : 'Saved locally',
+        visibilityTime: 2000,
       });
     } catch (error) {
-      console.log('Error updating user: ', error);
+      console.log('Error updating user:', error);
+      await loadUsers();
+      Toast.show({
+        type: 'error',
+        text1: 'Error updating user',
+      });
     }
   };
 
+  // Update checkbox status - works offline!
   const updateCheckboxStatus = async (userId: string, isChecked: boolean) => {
     try {
-      await firestore().collection('Todo').doc(userId).update({
-        isChecked: isChecked,
-      });
-      getUsers();
+      await syncService.updateTodo(userId, { isChecked });
     } catch (error) {
-      console.log('Error updating checkbox: ', error);
+      console.log('Error updating checkbox:', error);
+      await loadUsers();
     }
   };
 
+  // Delete User - works offline! Marks for deletion locally, syncs in background
   const deleteUser = async (userId: string) => {
-    try {
-      Alert.alert('Delete User', 'Are you sure you want to delete this user?', [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: async () => {
-            await firestore()
-              .collection('Todo')
-              .doc(userId)
-              .delete();
-            getUsers();
+    Alert.alert('Delete User', 'Are you sure you want to delete this user?', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: async () => {
+          // Remove from UI immediately
+          setUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
+
+          try {
+            // Delete from local DB (instant - never blocks)
+            await syncService.deleteTodo(userId);
+            
             Toast.show({
               type: 'success',
-              text1: 'User Deleted',
+              text1: '🗑️ User Deleted',
+              text2: isOnline ? 'Syncing in background...' : 'Saved locally',
+              visibilityTime: 2000,
             });
-          },
+          } catch (error) {
+            console.log('Error deleting user:', error);
+            await loadUsers();
+            Toast.show({
+              type: 'error',
+              text1: 'Error deleting user',
+            });
+          }
         },
-      ]);
-    } catch (error) {
-      console.log('Error deleting user: ', error);
-    }
+      },
+    ]);
   };
 
-  const getUsers = async () => {
+  // Manual sync trigger (pull to refresh)
+  const onRefresh = useCallback(async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-      const snapshot = await firestore().collection('Todo').limit(pageSize).get();
-
-      if (snapshot.docs.length > 0) {
-        const usersList: any = snapshot.docs.map((doc: any) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setUsers(usersList);
-        setLastDoc(snapshot.docs[snapshot.docs.length - 1]);
-        setHasMore(snapshot.docs.length === pageSize);
-      } else {
-        setUsers([]);
-        setHasMore(false);
+      const online = await syncService.checkConnection();
+      if (online) {
+        await syncService.fullSync();
+      }
+      await loadUsers();
+      if (!online) {
+        Toast.show({
+          type: 'info',
+          text1: 'Offline - showing local data',
+        });
       }
     } catch (error) {
-      console.log('Error getting users: ', error);
+      console.log('Refresh sync error:', error);
     } finally {
       setLoading(false);
     }
-  };
-
-  const loadMoreUsers = async () => {
-    if (!hasMore || loadingMore || lastDoc === null) return;
-
-    try {
-      setLoadingMore(true);
-      const snapshot = await firestore()
-        .collection('Todo')
-        .startAfter(lastDoc)
-        .limit(pageSize)
-        .get();
-
-      if (snapshot.docs.length > 0) {
-        const moreUsers: any = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setUsers(prev => [...prev, ...moreUsers]);
-        setLastDoc(snapshot.docs[snapshot.docs.length - 1]);
-        setHasMore(snapshot.docs.length === pageSize);
-      } else {
-        setHasMore(false);
-      }
-    } catch (error) {
-      console.log('Error loading more users: ', error);
-    } finally {
-      setLoadingMore(false);
-    }
-  };
+  }, []);
 
   const handleCheckboxChange = (itemId: string, newState: boolean) => {
-    const updatedUsers = users.map(user =>
-      user.id === itemId ? { ...user, isChecked: newState } : user,
+    // Update UI immediately
+    setUsers(prevUsers =>
+      prevUsers.map(user =>
+        user.id === itemId ? { ...user, isChecked: newState, isSynced: false } : user
+      )
     );
-    setUsers(updatedUsers);
+    // Update in background
     updateCheckboxStatus(itemId, newState);
   };
 
-  const handleEditUser = (user: any) => {
+  const handleEditUser = (user: UserItem) => {
     setNewUser({
       name: user.name,
       age: user.age ? user.age.toString() : '',
+      isChecked: user.isChecked,
       userId: user.id,
       isEditing: true,
     });
@@ -227,7 +345,7 @@ const HomeScreen = () => {
           />
           <ActionButtons
             isEditing={newUser.isEditing}
-            onSubmit={newUser.isEditing ? () => updateUser(newUser.userId) : addTodo}
+            onSubmit={newUser.isEditing ? () => updateUser(newUser.userId!) : addTodo}
             onClear={handleClearAllFields}
           />
 
@@ -238,6 +356,8 @@ const HomeScreen = () => {
               <FlatList
                 data={users}
                 showsVerticalScrollIndicator={false}
+                refreshing={loading}
+                onRefresh={onRefresh}
                 renderItem={({ item }) => (
                   <UserTableRow
                     item={item}
@@ -246,8 +366,7 @@ const HomeScreen = () => {
                     onDelete={deleteUser}
                   />
                 )}
-                keyExtractor={(item: any) => item.id}
-                onEndReached={() => loadMoreUsers()}
+                keyExtractor={(item: UserItem) => item.id}
                 onEndReachedThreshold={0.5}
                 ListEmptyComponent={<ListEmptyState isLoading={loading} />}
                 ListFooterComponent={<LoadingFooter isLoading={loadingMore} />}

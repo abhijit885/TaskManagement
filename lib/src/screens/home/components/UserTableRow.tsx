@@ -6,7 +6,13 @@ import Colors from '../../../theme/colors';
 import { truncateText } from '../../../common/commonFunction';
 
 interface UserTableRowProps {
-  item: any;
+  item: {
+    id: string;
+    name: string;
+    age: number;
+    isChecked: boolean;
+    isSynced?: boolean;
+  };
   onCheckboxChange: (itemId: string, newState: boolean) => void;
   onEdit: (item: any) => void;
   onDelete: (itemId: string) => void;
@@ -36,7 +42,26 @@ const UserTableRow: React.FC<UserTableRowProps> = ({
         />
       </View>
       <View style={styles.userNameStyle}>
-        <Text style={styles.tableCell}>{truncateText(item?.name, 5)}</Text>
+        <View style={styles.nameContainer}>
+          <Text style={styles.tableCell}>{truncateText(item?.name, 5)}</Text>
+          {/* Sync status indicator */}
+          {item.isSynced === false && (
+            <MaterialIcons 
+              name="cloud-off" 
+              size={14} 
+              color="#FF6B35" 
+              style={styles.syncIcon}
+            />
+          )}
+          {item.isSynced === true && (
+            <MaterialIcons 
+              name="cloud-done" 
+              size={14} 
+              color="#4CAF50" 
+              style={styles.syncIcon}
+            />
+          )}
+        </View>
       </View>
       <Text style={styles.width10Pix}>{item?.age}</Text>
       <TouchableOpacity onPress={() => onEdit(item)} style={styles.width10Pix}>
@@ -60,6 +85,13 @@ const styles = StyleSheet.create({
   },
   checkBoxContainer: { width: '20%', alignItems: 'center' },
   userNameStyle: { width: '20%', marginLeft: -30 },
+  nameContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  syncIcon: {
+    marginLeft: 4,
+  },
   width10Pix: { width: '10%' },
   tableCell: { fontSize: 14 },
   checkboxStyle: {

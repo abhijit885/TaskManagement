@@ -11,6 +11,7 @@ import HomeScreen from '../screens/home/HomeScreen';
 import { signOut } from '../redux/slices/authSlice';
 import { useThemeContext } from '../theme/ThemeContext';
 import Colors from '../theme/colors';
+import OfflineIndicator from '../components/OfflineIndicator';
 
 const MainStack = createStackNavigator();
 
@@ -88,9 +89,12 @@ const MainNavigator: React.FC = () => {
 };
 
   return (
-    <NavigationContainer ref={navigationRef}>
-      <MainStackSet />
-    </NavigationContainer>
+    <View style={{ flex: 1 }}>
+      <OfflineIndicator />
+      <NavigationContainer ref={navigationRef}>
+        <MainStackSet />
+      </NavigationContainer>
+    </View>
   );
 };
 
