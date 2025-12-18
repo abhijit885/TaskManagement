@@ -3,63 +3,35 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
-  Pressable,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  Image,
-  SafeAreaViewBase,
   Text,
   TextInput,
-  Button,
   Keyboard,
 } from 'react-native';
-import { Controller, useForm } from 'react-hook-form';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import * as Yup from 'yup';
-import { typography } from '../../theme/typography';
 import Colors from '../../theme/colors';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAppDispatch } from '../../redux/reduxHooks';
-import {
-  setProfile,
-  setRememberMeCookies,
-} from '../../redux/slices/profileSlice';
 import { useThemeContext } from '../../theme/ThemeContext';
 import { useSelector } from 'react-redux';
 import {
   responsiveHeight,
   responsiveWidth,
 } from '../../common/responsiveFontSize';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { setSession } from '../../services/storageService';
-import { login, signUp } from '../../services/authService';
 import { signInUser, signUpUser } from '../../redux/slices/authSlice';
 import Toast from 'react-native-toast-message';
-
-type LoginFormData = {
-  email: string;
-  password?: string;
-};
+import { textFields } from '../../types/task';
 
 const LoginScreen = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const { theme, colors } = useThemeContext();
   const navigation = useNavigation<any>();
   const dispatch = useAppDispatch();
-  const [rememberMe, setRememberMe] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [isFirstTime, setIsFirstTime] = useState<boolean | null>(null);
-  const [isActivateMode, setIsActivateMode] = useState(false);
   const isCheckedVal = useSelector(
     (state: any) => state?.profile?.rememberMeData,
   );
-    const styles = useMemo(() => createStyles(theme, colors), [theme, colors]);
+    const styles = useMemo(() => createStyles(theme), [theme, colors]);
     const parsedData = JSON.parse(isCheckedVal);
-  interface textFields {
-    email: string;
-    password?: any;
-  }
   const [data, setData] = useState<textFields>({ email: '', password: '' });
   const [validate, setValidate] = useState<boolean>(false);
   const [visibleEye, setVisibleEye] = useState(false);
@@ -69,37 +41,15 @@ const LoginScreen = () => {
   useEffect(() => {
     const checkStoredCredentials = async () => {
       const storedEmail = await AsyncStorage.getItem('userEmail');
-
-      setIsFirstTime(!storedEmail);
-
-      if (parsedData) {
-        //const { email, password } = JSON.parse(storedCredentials);
-        // setValue('email', parsedData?.email);
-        //setValue('password', parsedData?.password);
-        setRememberMe(true);
-      }
     };
-
     checkStoredCredentials();
   }, [parsedData]);
-  const handleSignUp = async () => {
-    setValidate(true);
-    if (data.email && data.password && emailRegex.test(data.email)) {
-      let resp = await dispatch(
-        signUpUser({ email: data.email, password: data.password }),
-      );
-      if (resp?.meta?.requestStatus === 'fulfilled') {
-        setData({ email: '', password: '' });
-        setValidate(false);
-      }
-    }
-  };
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   const managePasswordVisibility = () => {
     setVisibleEye(!visibleEye);
-    // Hide the keyboard
     Keyboard.dismiss();
   };
+
   const handleSignIn = async () => {
     setValidate(true);
     if (data.email && data.password && emailRegex.test(data.email)) {
@@ -107,86 +57,13 @@ const LoginScreen = () => {
         signInUser({ email: data.email, password: data.password }),
       );
       if (resp?.meta?.requestStatus === 'fulfilled') {
-        Toast.show({
-          type: 'success',
-          text1: 'Login Successfully',
-        });
+       
         setData({ email: '', password: '' });
         setValidate(false);
       }
     }
-
-    // try {
-    //   const user: any = await login(email, password);
-    //   console.log('User Login:', user);
-    //   setSession(user.uid); // Save user session
-    //   navigation.navigate('Home');
-    // } catch (err) {
-    //   console.log('Error:', err);
-    //   setError('Sign in failed. Please check your credentials.');
-    // }
   };
-  // const onSubmit = async (data: LoginFormData) => {
-  //   setError('');
-  //   try {
-  //     setLoading(true);
-  //     let response;
-
-  //       // 👈 Login flow
-  //       response = await loginUser({
-  //         email: data.email,
-  //         password: data.password || '',
-  //         platform_type: 'app',
-  //       });
-  //       dispatch(
-  //         setRememberMeCookies(
-  //           JSON.stringify({
-  //             email: data.email,
-  //             password: data.password,
-  //           }),
-  //         ),
-  //       ); // Update Redux store
-
-  //     if (response?.statusCode === 200) {
-  //       dispatch(setProfile(null));
-  //       // ✅ Remember Me for login only
-  //       if (!isActivateMode) {
-  //         if (rememberMe) {
-  //           await AsyncStorage.setItem(
-  //             'rememberMeData',
-  //             JSON.stringify({
-  //               email: data.email,
-  //               password: data.password || '',
-  //             }),
-  //           );
-  //         } else {
-  //           await AsyncStorage.removeItem('rememberMeData');
-  //         }
-  //       }
-
-  //       console.log(response?.data);
-  //       await AsyncStorage.setItem('userEmail', data.email);
-
-  //       // Navigate depending on flow
-  //       navigation.navigate('Otp', {
-  //         email: data.email,
-  //         isFrom: isActivateMode ? 'account_activation' : 'login',
-  //         otp: response?.data?.otp,
-  //         isActive: response?.data?.is_active,
-  //       });
-  //     } else {
-  //       console.log(response);
-  //     }
-  //   } catch (error2: any) {
-  //     console.log('error');
-  //     // Alert.alert(
-  //     //   t('errors.error'),
-  //     //   error?.message || t('errors.somethingWrong'),
-  //     // );
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+  
   return (
       <View style={styles.container}>
         <Text style={styles.header}>Welcome to Task Manager</Text>
@@ -242,24 +119,14 @@ const LoginScreen = () => {
         <TouchableOpacity style={styles.buttonLogin} onPress={handleSignIn}>
           <Text style={styles.buttonTextLogin}>Login</Text>
         </TouchableOpacity>
-
-        {/* <Button title="Sign Up" onPress={handleSignUp} /> */}
         <TouchableOpacity
           style={styles.buttonSignUp}
           onPress={
             () => navigation.navigate('SignUp')
-            //dispatch(signUpUser({ email: data.email, password: data.password }))
           }
         >
           <Text style={styles.buttonTextSignUp}>Sign Up</Text>
         </TouchableOpacity>
-        {/* <Button
-          title="Login"
-          onPress={() =>
-            dispatch(signInUser({ email: email, password: password }))
-          }
-        /> */}
-
         <Text style={styles.footer}>
           Don't have an account?{' '}
           <Text
@@ -275,7 +142,7 @@ const LoginScreen = () => {
 
 export default LoginScreen;
 
-const createStyles = (theme: string, colors: any) =>
+const createStyles = (theme: string) =>
   StyleSheet.create({
     container: {
       flex: 1,
@@ -336,7 +203,6 @@ const createStyles = (theme: string, colors: any) =>
       color: 'red',
       fontSize: responsiveHeight(60),
       marginBottom: 10,
-      //backgroundColor:'#eafa',
     },
     enterPassCont: {
       flexDirection: 'row',

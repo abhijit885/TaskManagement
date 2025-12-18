@@ -47,15 +47,12 @@ export const signInUser: any = createAsyncThunk(
         body.password,
       );
       console.log('User Login Result:', result?.user?.uid);
-      Toast.show({
-        type: 'success',
-        text1: 'Logged in Successfully',
-      });
       Keychain.setGenericPassword('AccessToken', result?.user?.uid, {
         service: 'accessToken',
       });
       await AsyncStorage.setItem('loginKey', result?.user?.uid);
-      return result?.user?.uid;
+      const verifyEd = result?.user?.uid
+      return verifyEd;
     } catch (error: any) {
       Alert.alert('invalid-credential');
       console.log('LOGIN ERROR >>>> ', error);
@@ -114,6 +111,10 @@ const authSlice = createSlice({
     builder.addCase(signInUser.fulfilled, (state, action) => {
       state.globalLoading = false;
       state.loginToken = action.payload;
+      //  Toast.show({
+      //     type: 'success',
+      //     text1: 'Login Successfully',
+      //   });
       Keychain.setGenericPassword('AccessToken', action.payload, {
         service: 'accessToken',
       });

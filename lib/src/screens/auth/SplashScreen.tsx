@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, Image, SafeAreaViewBase, Text } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { responsiveWidth } from '../../common/responsiveFontSize';
 

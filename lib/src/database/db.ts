@@ -1,8 +1,20 @@
 import SQLite from 'react-native-sqlite-storage';
 
-let db: any;
+interface Task {
+  id?: number;
+  title: string;
+  description: string;
+  completed: number;
+  createdAt: string;
+}
 
-SQLite.openDatabase({ name: 'tasks.db', location: 'default' }).then((database) => {
+interface DatabaseTransaction {
+  executeSql(sql: string, params?: any[]): void;
+}
+
+let db: SQLite.SQLiteDatabase;
+
+SQLite.openDatabase({ name: 'tasks.db', location: 'default' }).then((database: SQLite.SQLiteDatabase) => {
   db = database;
 });
 

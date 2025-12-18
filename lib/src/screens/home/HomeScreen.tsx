@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   TextInput,
-  Button,
   FlatList,
   TouchableOpacity,
   Alert,
@@ -30,25 +29,25 @@ const HomeScreen = () => {
   const [loadingMore, setLoadingMore] = useState(false);
   const [lastDoc, setLastDoc] = useState<any>(null);
   const [hasMore, setHasMore] = useState(true);
-  const pageSize = 10; // Items per page
+  const pageSize = 10;
   const [newUser, setNewUser]: any = useState({
     name: '',
     age: '',
-    city: '',
     isChecked: false,
-    userId: null, // Store the ID of the user being edited
+    userId: null,
     isEditing: false,
   });
   const { theme, colors } = useThemeContext();
   const globalSpinner: any = useSelector<any>(
     (state: rootState) => state.user.globalLoading,
   );
-  const styles = useMemo(() => createStyles(theme, colors), [theme, colors]);
+  const styles = useMemo(() => createStyles(theme), [theme, colors]);
 
   useEffect(() => {
     getUsers();
     console.log('Users fetched from Firestore', users);
   }, []);
+
   const addTodo = async () => {
     if (!newUser.name.trim()) {
       Alert.alert('Error', 'Please enter a name.');
@@ -62,14 +61,12 @@ const HomeScreen = () => {
       Alert.alert('Validation Error', 'Please enter a valid age number.');
       return;
     }
-
     try {
      const docRef = await firestore()
         .collection('Todo')
         .add({
           name: newUser.name,
           age: parseInt(newUser.age),
-          city: newUser.city,
           isChecked: false,
         });
       console.log('User added!');
@@ -81,11 +78,10 @@ const HomeScreen = () => {
       id: docRef.id,
       name: newUser.name,
       age: parseInt(newUser.age),
-      city: newUser.city,
       isChecked: false,
     };
     setUsers([newUserData, ...users]);
-      setNewUser({ name: '', age: '', city: '', isChecked: false });
+      setNewUser({ name: '', age: '', isChecked: false });
       //getUsers();
     } catch (error) {
       console.log('Error adding user: ', error);
@@ -100,11 +96,10 @@ const HomeScreen = () => {
         .update({
           name: newUser.name,
           age: parseInt(newUser.age),
-          city: newUser.city,
         });
       getUsers();
       Toast.show({
-        type: 'success', // You can choose from 'success', 'error', or 'info'
+        type: 'success',
         text1: 'User Updated',
       });
       console.log('User updated!', updatedUser);
@@ -119,7 +114,7 @@ const HomeScreen = () => {
         isChecked: isChecked,
       });
       console.log('Checkbox updated!');
-      getUsers(); // Refresh user list
+      getUsers();
     } catch (error) {
       console.log('Error updating checkbox: ', error);
     }
@@ -151,7 +146,6 @@ const HomeScreen = () => {
     }
   };
 
-  // Get Users function to fetch data from Firestore with pagination
   const getUsers = async () => {
     try {
       setLoading(true);
@@ -164,8 +158,8 @@ const HomeScreen = () => {
           ...doc.data(),
         }));
         setUsers(usersList);
-        setLastDoc(snapshot.docs[snapshot.docs.length - 1]); // Store last doc for next page
-        setHasMore(snapshot.docs.length === pageSize); // If less than pageSize, no more data
+        setLastDoc(snapshot.docs[snapshot.docs.length - 1]);
+        setHasMore(snapshot.docs.length === pageSize);
       } else {
         setUsers([]);
         setHasMore(false);
@@ -177,7 +171,6 @@ const HomeScreen = () => {
     }
   };
 
-  // Load more data function for pagination
   const loadMoreUsers = async () => {
     if (!hasMore || loadingMore || lastDoc === null) return;
 
@@ -207,7 +200,6 @@ const HomeScreen = () => {
     }
   };
 
-  // Handle checkbox state for a specific item
   const handleCheckboxChange = (itemId: any) => {
     const updatedUsers = users.map(user =>
       user.id === itemId ? { ...user, isChecked: !user.isChecked } : user,
@@ -215,26 +207,25 @@ const HomeScreen = () => {
     setUsers(updatedUsers);
   };
 
-  // Fill TextFields with user data on icon click
   const handleEditUser = (user: any) => {
     setNewUser({
       name: user.name,
       age: user.age ? user.age.toString() : '',
-      city: user.city,
       userId: user.id,
       isEditing: true,
     });
   };
+
   const handelClearAllFields = () => {
     setNewUser({
       name: '',
       age: '',
-      city: '',
       isChecked: false,
       userId: null,
       isEditing: false,
     });
   };
+
   return (
     <View style={styles.container}>
       {globalSpinner !== true ? (
@@ -253,12 +244,6 @@ const HomeScreen = () => {
             keyboardType="numeric"
             onChangeText={text => setNewUser({ ...newUser, age: text })}
           />
-          {/* <TextInput
-            style={styles.input}
-            placeholder="City"
-            value={newUser.city}
-            onChangeText={text => setNewUser({ ...newUser, city: text })}
-          /> */}
           <View
             style={{ flexDirection: 'row', justifyContent: 'space-between' }}
           >
@@ -343,13 +328,13 @@ const HomeScreen = () => {
                       style={{ width: '10%' }}
                     >
                       <MaterialIcons name="edit" size={30} color="#092E75" />
-                    </TouchableOpacity>{' '}
+                    </TouchableOpacity>
                     <TouchableOpacity
                       onPress={() => deleteUser(item?.id)}
                       style={{ width: '10%' }}
                     >
                       <MaterialIcons name="delete" size={30} color="#092E75" />
-                    </TouchableOpacity>{' '}
+                    </TouchableOpacity>
                   </View>
                 )}
                 keyExtractor={(item: any) => item.id}
@@ -398,7 +383,7 @@ const HomeScreen = () => {
   );
 };
 
-const createStyles = (theme: string, colors: any) =>
+const createStyles = (theme: string) =>
   StyleSheet.create({
     container: {
       flex: 1,
@@ -443,8 +428,6 @@ const createStyles = (theme: string, colors: any) =>
     },
     tableCell: {
       fontSize: 14,
-      //width: '20%',
-      //textAlign: 'center',
     },
     input: {
       height: 50,
@@ -480,7 +463,6 @@ const createStyles = (theme: string, colors: any) =>
     },
     TableFlex: {
       height: responsiveHeight(2.8),
-      //backgroundColor: theme !== 'dark' ? colors.primary : colors.secondary,
     },
   });
 

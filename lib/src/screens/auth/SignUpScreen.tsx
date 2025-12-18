@@ -3,67 +3,35 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
-  Pressable,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  Image,
-  SafeAreaViewBase,
   Text,
   TextInput,
-  Button,
 } from 'react-native';
-import { Controller, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
-import { typography } from '../../theme/typography';
 import Colors from '../../theme/colors';
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAppDispatch } from '../../redux/reduxHooks';
-import {
-  setProfile,
-  setRememberMeCookies,
-} from '../../redux/slices/profileSlice';
 import { useThemeContext } from '../../theme/ThemeContext';
 import { useSelector } from 'react-redux';
 import {
   responsiveHeight,
-  responsiveWidth,
 } from '../../common/responsiveFontSize';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { setSession } from '../../services/storageService';
-import { login, signUp } from '../../services/authService';
-import { signInUser, signUpUser } from '../../redux/slices/authSlice';
+import { signUpUser } from '../../redux/slices/authSlice';
 import Toast from 'react-native-toast-message';
-
-type LoginFormData = {
-  email: string;
-  password?: string;
-};
+import { textFields } from '../../types/task';
 
 const SignUpScreen = () => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const { theme, colors } = useThemeContext();
   const navigation = useNavigation<any>();
   const dispatch = useAppDispatch();
-  const [rememberMe, setRememberMe] = useState(false);
-  const [isFirstTime, setIsFirstTime] = useState<boolean | null>(null);
-  const [isActivateMode, setIsActivateMode] = useState(false);
   const isCheckedVal = useSelector(
     (state: any) => state?.profile?.rememberMeData,
   );
   const styles = useMemo(() => createStyles(theme), [theme]);
-  const parsedData = JSON.parse(isCheckedVal);
-  interface textFields {
-    email: string;
-    password?: any;
-  }
   const [data, setData] = useState<textFields>({ email: '', password: '' });
   const [validate, setValidate] = useState<boolean>(false);
-  const [visibleEye, setVisibleEye] = useState(true);
-
   const [error, setError] = useState<string | null>(null);
+
   const handleSignUp = async () => {
     setValidate(true);
     if (data.email && data.password && emailRegex.test(data.email)) {
@@ -81,14 +49,13 @@ const SignUpScreen = () => {
       }
     }
   };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.container}>
         <Text style={styles.header}>Welcome to Task Manager</Text>
         <Text style={styles.header}>Please SignUp!</Text>
-
         {error && <Text style={styles.errorText}>{error}</Text>}
-
         <TextInput
           style={styles.input}
           placeholder="Email"
@@ -120,13 +87,10 @@ const SignUpScreen = () => {
             Please enter your password
           </Text>
         )}
-
-        {/* <Button title="Sign Up" onPress={handleSignUp} /> */}
         <TouchableOpacity
           style={styles.buttonSignUp}
           onPress={
             () => handleSignUp()
-            //dispatch(signUpUser({ email: data.email, password: data.password }))
           }
         >
           <Text style={styles.buttonTextSignUp}>Sign Up</Text>
@@ -137,12 +101,6 @@ const SignUpScreen = () => {
         >
           <Text style={styles.buttonTextLogin}>Login</Text>
         </TouchableOpacity>
-        {/* <Button
-          title="Login"
-          onPress={() =>
-            dispatch(signInUser({ email: email, password: password }))
-          }
-        /> */}
       </View>
     </SafeAreaView>
   );
@@ -199,7 +157,6 @@ const createStyles = (theme: string) =>
     },
     buttonSignUp: {
       backgroundColor: theme !== 'dark' ? Colors.primary : Colors.secondary,
-      //borderWidth: 2,
       padding: 10,
       borderRadius: 5,
       marginTop: 10,
@@ -212,6 +169,5 @@ const createStyles = (theme: string) =>
       color: 'red',
       fontSize: responsiveHeight(60),
       marginBottom: 10,
-      //backgroundColor:'#eafa',
     },
   });

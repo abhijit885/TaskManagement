@@ -10,3 +10,7 @@ export interface User {
   email: string;
   displayName?: string;
 }
+export interface textFields {
+  email: string;
+  password?: any;
+}
