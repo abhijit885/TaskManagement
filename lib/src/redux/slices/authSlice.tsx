@@ -4,6 +4,7 @@ import * as Keychain from 'react-native-keychain';
 import { auth } from '../../firebase/config';
 import { Alert } from 'react-native';
 import Toast from 'react-native-toast-message';
+import { useNavigation } from '@react-navigation/native';
 
 interface Initial {
   loginToken: any;
@@ -40,6 +41,7 @@ export const signInUser: any = createAsyncThunk(
   'SignInUser',
   async (body: any, { rejectWithValue }) => {
     console.log('LOGIN BODY >>>> ', body);
+    
     try {
       const result = await auth().signInWithEmailAndPassword(
         body.email,
@@ -66,15 +68,13 @@ export const signInUser: any = createAsyncThunk(
 export const signUpUser: any = createAsyncThunk(
   'SignUpUser',
   async (body: any, { rejectWithValue, dispatch }) => {
-    //console.log('SignUpUser BODY >>>> ', body);
+    console.log('SIGNUP BODY >>>> ', body);
     try {
       const userSignup = await auth().createUserWithEmailAndPassword(
         body.email,
         body.password,
       );
       console.log('User SignUp Result:', userSignup?.user?.uid);
-      //const registerResult = userSignup;
-      //console.log('register RESULT >>>> ', registerResult);
       //dispatch(setEmail(body.email));
       return userSignup;
     } catch (error: any) {
@@ -87,9 +87,7 @@ export const signOut: any = createAsyncThunk(
   'SignOut',
   async (_, { rejectWithValue, dispatch }) => {
     try {
-      //console.log('Logout started');
       await Keychain.resetGenericPassword({ service: 'accessToken' });
-
       Toast.show({
         type: 'success',
         text1: 'Logout Successfully',

@@ -50,7 +50,7 @@ const AppNavigator: React.FC = () => {
           <StatusBar
             translucent
             backgroundColor="transparent"
-            barStyle="light-content"
+            barStyle="dark-content"
           />
           <Stack.Navigator
             initialRouteName={initialRoute} // 👈 Dynamic initial route
@@ -73,5 +73,5 @@ export default AppNavigator;
 
 const styles = StyleSheet.create({
   loaderText: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  main: { flex: 1, backgroundColor: '#2432B1' },
+  main: { flex: 1, backgroundColor: '#ffffff' },
 });

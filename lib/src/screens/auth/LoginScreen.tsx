@@ -318,11 +318,11 @@ const createStyles = (theme: string, colors: any) =>
       borderRadius: 5,
     },
     buttonTextLogin: {
-      color: theme !== 'dark' ? Colors.secondary : Colors.primary,
+      color: theme !== 'dark' ? Colors.background : Colors.primary,
       textAlign: 'center',
     },
     buttonSignUp: {
-      borderColor: '#092E75',
+      borderColor: theme !== 'dark' ? Colors.primary : Colors.secondary,
       borderWidth: 2,
       padding: 10,
       borderRadius: 5,

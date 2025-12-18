@@ -43,11 +43,11 @@ type LoginFormData = {
 };
 
 const SignUpScreen = () => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const { theme, colors } = useThemeContext();
   const navigation = useNavigation<any>();
   const dispatch = useAppDispatch();
   const [rememberMe, setRememberMe] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [isFirstTime, setIsFirstTime] = useState<boolean | null>(null);
   const [isActivateMode, setIsActivateMode] = useState(false);
   const isCheckedVal = useSelector(
@@ -64,23 +64,6 @@ const SignUpScreen = () => {
   const [visibleEye, setVisibleEye] = useState(true);
 
   const [error, setError] = useState<string | null>(null);
-  // ✅ Load stored credentials
-  useEffect(() => {
-    const checkStoredCredentials = async () => {
-      const storedEmail = await AsyncStorage.getItem('userEmail');
-
-      setIsFirstTime(!storedEmail);
-
-      if (parsedData) {
-        //const { email, password } = JSON.parse(storedCredentials);
-        // setValue('email', parsedData?.email);
-        //setValue('password', parsedData?.password);
-        setRememberMe(true);
-      }
-    };
-
-    checkStoredCredentials();
-  }, [parsedData]);
   const handleSignUp = async () => {
     setValidate(true);
     if (data.email && data.password && emailRegex.test(data.email)) {
@@ -88,101 +71,16 @@ const SignUpScreen = () => {
         signUpUser({ email: data.email, password: data.password }),
       );
       if (resp?.meta?.requestStatus === 'fulfilled') {
-        setData({ email: '', password: '' });
-        setValidate(false);
-      }
-    }
-  };
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  const handleSignIn = async () => {
-    setValidate(true);
-    if (data.email && data.password && emailRegex.test(data.email)) {
-      let resp = await dispatch(
-        signInUser({ email: data.email, password: data.password }),
-      );
-      if (resp?.meta?.requestStatus === 'fulfilled') {
         Toast.show({
-          type: 'type',
-          text1: 'text1',
-          text2: 'text2',
+          type: 'success',
+          text1: 'Sign Up Successfully',
         });
+        navigation.navigate('Login');
         setData({ email: '', password: '' });
         setValidate(false);
       }
     }
-
-    // try {
-    //   const user: any = await login(email, password);
-    //   console.log('User Login:', user);
-    //   setSession(user.uid); // Save user session
-    //   navigation.navigate('Home');
-    // } catch (err) {
-    //   console.log('Error:', err);
-    //   setError('Sign in failed. Please check your credentials.');
-    // }
   };
-  // const onSubmit = async (data: LoginFormData) => {
-  //   setError('');
-  //   try {
-  //     setLoading(true);
-  //     let response;
-
-  //       // 👈 Login flow
-  //       response = await loginUser({
-  //         email: data.email,
-  //         password: data.password || '',
-  //         platform_type: 'app',
-  //       });
-  //       dispatch(
-  //         setRememberMeCookies(
-  //           JSON.stringify({
-  //             email: data.email,
-  //             password: data.password,
-  //           }),
-  //         ),
-  //       ); // Update Redux store
-
-  //     if (response?.statusCode === 200) {
-  //       dispatch(setProfile(null));
-  //       // ✅ Remember Me for login only
-  //       if (!isActivateMode) {
-  //         if (rememberMe) {
-  //           await AsyncStorage.setItem(
-  //             'rememberMeData',
-  //             JSON.stringify({
-  //               email: data.email,
-  //               password: data.password || '',
-  //             }),
-  //           );
-  //         } else {
-  //           await AsyncStorage.removeItem('rememberMeData');
-  //         }
-  //       }
-
-  //       console.log(response?.data);
-  //       await AsyncStorage.setItem('userEmail', data.email);
-
-  //       // Navigate depending on flow
-  //       navigation.navigate('Otp', {
-  //         email: data.email,
-  //         isFrom: isActivateMode ? 'account_activation' : 'login',
-  //         otp: response?.data?.otp,
-  //         isActive: response?.data?.is_active,
-  //       });
-  //     } else {
-  //       console.log(response);
-  //     }
-  //   } catch (error2: any) {
-  //     console.log('error');
-  //     // Alert.alert(
-  //     //   t('errors.error'),
-  //     //   error?.message || t('errors.somethingWrong'),
-  //     // );
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.container}>
@@ -289,25 +187,25 @@ const createStyles = (theme: string) =>
       fontWeight: 'bold',
     },
     buttonLogin: {
-      borderColor: '#092E75',
+      borderColor: theme !== 'dark' ? Colors.primary : Colors.secondary,
       borderWidth: 2,
       padding: 10,
       borderRadius: 5,
       marginTop: 10,
     },
     buttonTextLogin: {
-      color: '#092E75',
+      color: theme !== 'dark' ? Colors.background : Colors.primary,
       textAlign: 'center',
     },
     buttonSignUp: {
-      backgroundColor: '#092E75',
-      borderWidth: 2,
+      backgroundColor: theme !== 'dark' ? Colors.primary : Colors.secondary,
+      //borderWidth: 2,
       padding: 10,
       borderRadius: 5,
       marginTop: 10,
     },
     buttonTextSignUp: {
-      color: '#fff',
+      color: theme !== 'dark' ? Colors.background : Colors.primary,
       textAlign: 'center',
     },
     TextInputRequired: {

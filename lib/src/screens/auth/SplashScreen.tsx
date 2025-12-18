@@ -15,7 +15,7 @@ const SplashScreen: React.FC = () => {
 
   return (
       <View style={styles.container}>
-        <Text style={{fontSize:responsiveWidth(10),fontWeight:'500'}}>Welcome Back</Text>
+        <Text style={{fontSize:responsiveWidth(12),fontWeight:'500'}}>Welcome Back</Text>
       </View>
   );
 };
