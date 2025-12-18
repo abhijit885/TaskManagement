@@ -1,23 +1,9 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { Appearance, LogBox, PermissionsAndroid, Platform, Settings, StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { Appearance, LogBox, PermissionsAndroid, Platform } from 'react-native';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { ThemeProvider } from './lib/src/theme/ThemeContext';
-import store from './lib/src/redux/store';
 import AppNavigator from './lib/src/navigation/AppNavigator';
-import notifee, {EventType} from '@notifee/react-native';
+import notifee, { EventType } from '@notifee/react-native';
 import NetInfo from '@react-native-community/netinfo';
-import { createStackNavigator } from '@react-navigation/stack';
 import { fetchToken } from './lib/src/redux/slices/authSlice';
 import { useEffect, useState } from 'react';
 import MainNavigator from './lib/src/navigation/MainNavigator';
@@ -27,10 +13,6 @@ import React from 'react';
 import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { onDisplayLocalNotification } from './lib/src/common/notifeeService';
-
-// function AppContent() {
-
-// }
 
 function App() {
   const [localToken, setLocalToken] = React.useState<any>(null);
@@ -46,11 +28,10 @@ function App() {
   };
   useEffect(() => {
     getToken();
-      requestUserPermission();
-    //console.log('FIREBASE_API_KEY>>>>', FIREBASE_API_KEY); // Access the Firebase API Key
+    requestUserPermission();
+    //console.log('FIREBASE_API_KEY>>>>', FIREBASE_API_KEY);
   }, [verifyToken]);
 
-  // Manage FCM permission
   async function requestUserPermission() {
     // const authorizationStatus = await messaging().requestPermission();
     const authorizationStatus = await messaging().requestPermission({
@@ -73,7 +54,6 @@ function App() {
     }
   }
 
-  // GET firebase token
   const checkToken = async () => {
     const fcmToken = await messaging().getToken();
     if (fcmToken) {
@@ -84,16 +64,14 @@ function App() {
 
   useEffect(() => {
     Appearance.setColorScheme('light');
-    LogBox.ignoreAllLogs(); //Ignore all log notifications
+    LogBox.ignoreAllLogs();
     //Settings.setAdvertiserTrackingEnabled(true);
-
-    // NOTE added this for the android platform condition
     if (Platform.OS === 'android') {
       PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
       );
     } else {
-      requestUserPermission(); //manage notifictaion permission
+      requestUserPermission();
     }
     const unsubscribe = NetInfo.addEventListener(state => {
       if (state.isConnected && state.isInternetReachable != false) {
@@ -109,20 +87,17 @@ function App() {
           navigationFunction(remoteMessage);
         }
       });
-
     messaging().setBackgroundMessageHandler(async remoteMessage => {
       if (remoteMessage?.data) {
         navigationFunction(remoteMessage);
       }
     });
-
     const unsubscribe_onNotificationOpenedApp =
       messaging().onNotificationOpenedApp(remoteMessage => {
         if (remoteMessage?.data) {
           navigationFunction(remoteMessage);
         }
       });
-
     const unsubscribe_notify = messaging().onMessage(async remoteMessage => {
       console.log('remoteMessage', remoteMessage);
       onDisplayLocalNotification(
@@ -130,16 +105,14 @@ function App() {
         remoteMessage?.notification?.body || '',
       );
     });
-
     const unsubscribe_notifee_foreground = notifee.onForegroundEvent(
-      ({type, detail}) => {
+      ({ type, detail }) => {
         console.log('remoteMessage', detail);
         if (type === EventType.PRESS && detail?.notification?.data) {
           navigationFunction(detail?.notification);
         }
       },
     );
-    // Cleanup the event listener on unmount
     return () => {
       unsubscribe();
       unsubscribe_onNotificationOpenedApp();
@@ -147,10 +120,9 @@ function App() {
       unsubscribe_notify();
     };
   }, [localToken]);
-  
-    const navigationFunction = async (remoteMessage: any) => {
-    console.log('remoteMessage', remoteMessage);
 
+  const navigationFunction = async (remoteMessage: any) => {
+    console.log('remoteMessage', remoteMessage);
     if (verifyToken) {
       navigationRef.current?.navigate('Home');
     }
@@ -163,11 +135,5 @@ function App() {
     </ThemeProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default App;
