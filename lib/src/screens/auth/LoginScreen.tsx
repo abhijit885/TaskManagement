@@ -54,8 +54,8 @@ const LoginScreen = () => {
   const isCheckedVal = useSelector(
     (state: any) => state?.profile?.rememberMeData,
   );
-  const styles = useMemo(() => createStyles(theme), [theme]);
-  const parsedData = JSON.parse(isCheckedVal);
+    const styles = useMemo(() => createStyles(theme, colors), [theme, colors]);
+    const parsedData = JSON.parse(isCheckedVal);
   interface textFields {
     email: string;
     password?: any;
@@ -84,15 +84,15 @@ const LoginScreen = () => {
   }, [parsedData]);
   const handleSignUp = async () => {
     setValidate(true);
-      if (data.email && data.password && emailRegex.test(data.email)) {
-        let resp = await dispatch(
-          signUpUser({ email: data.email, password: data.password }),
-        );
-        if (resp?.meta?.requestStatus === 'fulfilled') {
-          setData({ email: '', password: '' });
-          setValidate(false);
-        }
+    if (data.email && data.password && emailRegex.test(data.email)) {
+      let resp = await dispatch(
+        signUpUser({ email: data.email, password: data.password }),
+      );
+      if (resp?.meta?.requestStatus === 'fulfilled') {
+        setData({ email: '', password: '' });
+        setValidate(false);
       }
+    }
   };
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const managePasswordVisibility = () => {
@@ -102,20 +102,19 @@ const LoginScreen = () => {
   };
   const handleSignIn = async () => {
     setValidate(true);
-      if (data.email && data.password && emailRegex.test(data.email)) {
-        let resp = await dispatch(
-          signInUser({ email: data.email, password: data.password }),
-        );
-        if (resp?.meta?.requestStatus === 'fulfilled') {
-          Toast.show({
-                  type: "type",
-                  text1: "text1",
-                  text2: "text2",
-                });
-          setData({ email: '', password: '' });
-          setValidate(false);
-        }
+    if (data.email && data.password && emailRegex.test(data.email)) {
+      let resp = await dispatch(
+        signInUser({ email: data.email, password: data.password }),
+      );
+      if (resp?.meta?.requestStatus === 'fulfilled') {
+        Toast.show({
+          type: 'success',
+          text1: 'Login Successfully',
+        });
+        setData({ email: '', password: '' });
+        setValidate(false);
       }
+    }
 
     // try {
     //   const user: any = await login(email, password);
@@ -189,7 +188,6 @@ const LoginScreen = () => {
   //   }
   // };
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.container}>
         <Text style={styles.header}>Welcome to Task Manager</Text>
         <Text style={styles.header}>Please Login!</Text>
@@ -214,22 +212,21 @@ const LoginScreen = () => {
             Please enter valid email address
           </Text>
         )}
-                <View style={[styles.enterPassCont]}>
-
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          value={data.password}
-          onChangeText={text => setData({ ...data, password: text })}
-          placeholderTextColor={'#000'}
-                      secureTextEntry={!visibleEye}
-
-        />
-         <TouchableOpacity
+        <View style={[styles.enterPassCont]}>
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            value={data.password}
+            onChangeText={text => setData({ ...data, password: text })}
+            placeholderTextColor={'#000'}
+            secureTextEntry={!visibleEye}
+          />
+          <TouchableOpacity
             onPress={() => {
               managePasswordVisibility();
             }}
-            style={styles.passEyeIconContainer}>
+            style={styles.passEyeIconContainer}
+          >
             <Ionicons
               name={!visibleEye ? 'eye-off-outline' : 'eye-outline'}
               color={Colors.primary}
@@ -249,7 +246,8 @@ const LoginScreen = () => {
         {/* <Button title="Sign Up" onPress={handleSignUp} /> */}
         <TouchableOpacity
           style={styles.buttonSignUp}
-            onPress={() => navigation.navigate('SignUp')
+          onPress={
+            () => navigation.navigate('SignUp')
             //dispatch(signUpUser({ email: data.email, password: data.password }))
           }
         >
@@ -272,13 +270,12 @@ const LoginScreen = () => {
           </Text>
         </Text>
       </View>
-    </SafeAreaView>
   );
 };
 
 export default LoginScreen;
 
-const createStyles = (theme: string) =>
+const createStyles = (theme: string, colors: any) =>
   StyleSheet.create({
     container: {
       flex: 1,
@@ -316,12 +313,12 @@ const createStyles = (theme: string) =>
       fontWeight: 'bold',
     },
     buttonLogin: {
-      backgroundColor: '#092E75',
+      backgroundColor: theme !== 'dark' ? Colors.primary : Colors.secondary,
       padding: 10,
       borderRadius: 5,
     },
     buttonTextLogin: {
-      color: '#fff',
+      color: theme !== 'dark' ? Colors.secondary : Colors.primary,
       textAlign: 'center',
     },
     buttonSignUp: {
@@ -341,18 +338,18 @@ const createStyles = (theme: string) =>
       marginBottom: 10,
       //backgroundColor:'#eafa',
     },
-      enterPassCont: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderColor: '#D7DDEB',
-    borderRadius: 10,
-    marginBottom: 5,
-    marginTop:4
-  },
+    enterPassCont: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      borderColor: '#D7DDEB',
+      borderRadius: 10,
+      marginBottom: 5,
+      marginTop: 4,
+    },
     passEyeIconContainer: {
-    position: 'absolute',
-    right: responsiveWidth(30),
-    top: responsiveWidth(33),
-  },
+      position: 'absolute',
+      right: responsiveWidth(30),
+      top: responsiveWidth(33),
+    },
   });

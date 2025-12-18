@@ -23,6 +23,30 @@
         }
       }
     },
+    "@notifee/react-native": {
+      "root": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@notifee/react-native",
+      "name": "@notifee/react-native",
+      "platforms": {
+        "ios": {
+          "podspecPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@notifee/react-native/RNNotifee.podspec",
+          "version": "9.1.8",
+          "configurations": [],
+          "scriptPhases": []
+        },
+        "android": {
+          "sourceDir": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@notifee/react-native/android",
+          "packageImportPath": "import io.invertase.notifee.NotifeePackage;",
+          "packageInstance": "new NotifeePackage()",
+          "buildTypes": [],
+          "componentDescriptors": [],
+          "cmakeListsPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@notifee/react-native/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cxxModuleCMakeListsModuleName": null,
+          "cxxModuleCMakeListsPath": null,
+          "cxxModuleHeaderName": null,
+          "isPureCxxDependency": false
+        }
+      }
+    },
     "@react-native-async-storage/async-storage": {
       "root": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-async-storage/async-storage",
       "name": "@react-native-async-storage/async-storage",
@@ -65,6 +89,30 @@
           "buildTypes": [],
           "componentDescriptors": [],
           "cmakeListsPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-community/checkbox/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cxxModuleCMakeListsModuleName": null,
+          "cxxModuleCMakeListsPath": null,
+          "cxxModuleHeaderName": null,
+          "isPureCxxDependency": false
+        }
+      }
+    },
+    "@react-native-community/netinfo": {
+      "root": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-community/netinfo",
+      "name": "@react-native-community/netinfo",
+      "platforms": {
+        "ios": {
+          "podspecPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-community/netinfo/react-native-netinfo.podspec",
+          "version": "11.4.1",
+          "configurations": [],
+          "scriptPhases": []
+        },
+        "android": {
+          "sourceDir": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-community/netinfo/android",
+          "packageImportPath": "import com.reactnativecommunity.netinfo.NetInfoPackage;",
+          "packageInstance": "new NetInfoPackage()",
+          "buildTypes": [],
+          "componentDescriptors": [],
+          "cmakeListsPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-community/netinfo/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,

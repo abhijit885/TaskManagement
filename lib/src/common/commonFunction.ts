@@ -12,18 +12,9 @@ export const getUserSession = async () => {
 export const clearUserSession = async () => {
   await AsyncStorage.removeItem('@user_session');
 };
-  //Using this function we can show success or error toast message on the app
-  export const showToast = (type: string, text1: string, text2?: string) => {
-    if (text2) {
-      Toast.show({
-        type: type,
-        text1: text1,
-        text2: text2,
-      });
-    } else {
-      Toast.show({
-        type: type,
-        text1: text1,
-      });
-    }
-  };
+export const truncateText = (text: string, maxLength: number) => {
+  if (text.length > maxLength) {
+    return text.substring(0, maxLength) + '...';
+  }
+  return text;
+};

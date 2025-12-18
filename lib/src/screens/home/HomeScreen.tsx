@@ -22,6 +22,7 @@ import {
 } from '../../common/responsiveFontSize';
 import { useSelector } from 'react-redux';
 import { rootState } from '../../redux/store';
+import { truncateText } from '../../common/commonFunction';
 
 const HomeScreen = () => {
   const [users, setUsers] = useState<any[]>([]);
@@ -49,7 +50,6 @@ const HomeScreen = () => {
     console.log('Users fetched from Firestore', users);
   }, []);
   const addTodo = async () => {
-    // Validation: Check if all fields are filled
     if (!newUser.name.trim()) {
       Alert.alert('Error', 'Please enter a name.');
       return;
@@ -58,19 +58,13 @@ const HomeScreen = () => {
       Alert.alert('Error', 'Please enter an age.');
       return;
     }
-    if (!newUser.city.trim()) {
-      Alert.alert('Error', 'Please enter a city.');
-      return;
-    }
-
-    // Validate age is a valid number
     if (isNaN(parseInt(newUser.age))) {
       Alert.alert('Validation Error', 'Please enter a valid age number.');
       return;
     }
 
     try {
-      await firestore()
+     const docRef = await firestore()
         .collection('Todo')
         .add({
           name: newUser.name,
@@ -80,14 +74,19 @@ const HomeScreen = () => {
         });
       console.log('User added!');
       Toast.show({
-        type: 'success', // You can choose from 'success', 'error', or 'info'
-        position: 'top', // 'top' or 'bottom'
-        text1: 'Hello!',
-        text2: 'This is a toast message.',
-        visibilityTime: 3000, // Duration of the toast
+        type: 'success',
+        text1: 'User Added',
       });
-      setNewUser({ name: '', age: '', city: '', isChecked: false }); // Reset input fields
-      getUsers(); // Refresh user list
+    const newUserData = {
+      id: docRef.id,
+      name: newUser.name,
+      age: parseInt(newUser.age),
+      city: newUser.city,
+      isChecked: false,
+    };
+    setUsers([newUserData, ...users]);
+      setNewUser({ name: '', age: '', city: '', isChecked: false });
+      //getUsers();
     } catch (error) {
       console.log('Error adding user: ', error);
     }
@@ -103,7 +102,11 @@ const HomeScreen = () => {
           age: parseInt(newUser.age),
           city: newUser.city,
         });
-        getUsers();
+      getUsers();
+      Toast.show({
+        type: 'success', // You can choose from 'success', 'error', or 'info'
+        text1: 'User Updated',
+      });
       console.log('User updated!', updatedUser);
     } catch (error) {
       console.log('Error updating user: ', error);
@@ -135,7 +138,11 @@ const HomeScreen = () => {
               .doc(userId)
               .delete();
             console.log('User deleted!', deletedUser);
-            getUsers(); // Refresh user list
+            getUsers();
+            Toast.show({
+              type: 'success',
+              text1: 'User Deleted',
+            });
           },
         },
       ]);
@@ -152,7 +159,7 @@ const HomeScreen = () => {
       const snapshot = await query.get();
 
       if (snapshot.docs.length > 0) {
-        const usersList: any = snapshot.docs.map((doc:any) => ({
+        const usersList: any = snapshot.docs.map((doc: any) => ({
           id: doc.id,
           ...doc.data(),
         }));
@@ -232,7 +239,7 @@ const HomeScreen = () => {
     <View style={styles.container}>
       {globalSpinner !== true ? (
         <View style={{ padding: 10 }}>
-          <Text style={styles.heading}>Add Your Wish!</Text>
+          <Text style={styles.heading}>Add User!</Text>
           <TextInput
             style={styles.input}
             placeholder="Name"
@@ -246,12 +253,12 @@ const HomeScreen = () => {
             keyboardType="numeric"
             onChangeText={text => setNewUser({ ...newUser, age: text })}
           />
-          <TextInput
+          {/* <TextInput
             style={styles.input}
             placeholder="City"
             value={newUser.city}
             onChangeText={text => setNewUser({ ...newUser, city: text })}
-          />
+          /> */}
           <View
             style={{ flexDirection: 'row', justifyContent: 'space-between' }}
           >
@@ -262,7 +269,7 @@ const HomeScreen = () => {
               }
             >
               <Text style={styles.buttonTextLogin}>
-                {newUser.isEditing ? 'Update Todo' : 'Add Todo'}
+                {newUser.isEditing ? 'Update User' : 'Add User'}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -273,7 +280,7 @@ const HomeScreen = () => {
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.subHeading}>Your Todo List</Text>
+          <Text style={styles.subHeading}>Your User List</Text>
           {/* Users Table */}
           <View style={styles.tableContainer}>
             <View style={styles.tableHeader}>
@@ -326,7 +333,9 @@ const HomeScreen = () => {
                     <View
                       style={{ width: '20%', marginLeft: responsiveWidth(-10) }}
                     >
-                      <Text style={[styles.tableCell]}>{item?.name}</Text>
+                      <Text style={[styles.tableCell]}>
+                        {truncateText(item?.name, 5)}
+                      </Text>
                     </View>
                     <Text style={{ width: '10%' }}>{item?.age}</Text>
                     <TouchableOpacity
@@ -374,7 +383,12 @@ const HomeScreen = () => {
         </View>
       ) : (
         <View
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center',backgroundColor: '#fff' }}
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#fff',
+          }}
         >
           <ActivityIndicator size="large" color="#000" />
           <Text style={styles.heading}>Loading...</Text>
@@ -425,7 +439,7 @@ const createStyles = (theme: string, colors: any) =>
       justifyContent: 'space-between',
       paddingVertical: 10,
       borderBottomWidth: 1,
-      borderColor: '#ccc'
+      borderColor: '#ccc',
     },
     tableCell: {
       fontSize: 14,
