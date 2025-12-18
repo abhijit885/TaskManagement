@@ -3,25 +3,25 @@ import {
   View,
   Text,
   StyleSheet,
-  TextInput,
   FlatList,
-  TouchableOpacity,
   Alert,
   ActivityIndicator,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
-import CheckBox from '@react-native-community/checkbox';
-import Colors from '../../theme/colors';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Toast from 'react-native-toast-message';
 import { useThemeContext } from '../../theme/ThemeContext';
 import {
   responsiveHeight,
-  responsiveWidth,
 } from '../../common/responsiveFontSize';
 import { useSelector } from 'react-redux';
 import { rootState } from '../../redux/store';
-import { truncateText } from '../../common/commonFunction';
+
+import UserInputForm from './components/UserInputForm';
+import ActionButtons from './components/ActionButtons';
+import TableHeader from './components/TableHeader';
+import UserTableRow from './components/UserTableRow';
+import ListEmptyState from './components/ListEmptyState';
+import LoadingFooter from './components/LoadingFooter';
 
 const HomeScreen = () => {
   const [users, setUsers] = useState<any[]>([]);
@@ -45,7 +45,6 @@ const HomeScreen = () => {
 
   useEffect(() => {
     getUsers();
-    console.log('Users fetched from Firestore', users);
   }, []);
 
   const addTodo = async () => {
@@ -69,20 +68,12 @@ const HomeScreen = () => {
           age: parseInt(newUser.age),
           isChecked: false,
         });
-      console.log('User added!');
       Toast.show({
         type: 'success',
         text1: 'User Added',
       });
-      const newUserData = {
-        id: docRef.id,
-        name: newUser.name,
-        age: parseInt(newUser.age),
-        isChecked: false,
-      };
-      setUsers([newUserData, ...users]);
+      setUsers([{ id: docRef.id, name: newUser.name, age: parseInt(newUser.age), isChecked: false }, ...users]);
       setNewUser({ name: '', age: '', isChecked: false });
-      //getUsers();
     } catch (error) {
       console.log('Error adding user: ', error);
     }
@@ -90,7 +81,7 @@ const HomeScreen = () => {
 
   const updateUser = async (userId: string) => {
     try {
-      const updatedUser = await firestore()
+      await firestore()
         .collection('Todo')
         .doc(userId)
         .update({
@@ -102,7 +93,6 @@ const HomeScreen = () => {
         type: 'success',
         text1: 'User Updated',
       });
-      console.log('User updated!', updatedUser);
     } catch (error) {
       console.log('Error updating user: ', error);
     }
@@ -113,7 +103,6 @@ const HomeScreen = () => {
       await firestore().collection('Todo').doc(userId).update({
         isChecked: isChecked,
       });
-      console.log('Checkbox updated!');
       getUsers();
     } catch (error) {
       console.log('Error updating checkbox: ', error);
@@ -128,11 +117,10 @@ const HomeScreen = () => {
           text: 'Delete',
           style: 'destructive',
           onPress: async () => {
-            const deletedUser = await firestore()
+            await firestore()
               .collection('Todo')
               .doc(userId)
               .delete();
-            console.log('User deleted!', deletedUser);
             getUsers();
             Toast.show({
               type: 'success',
@@ -149,8 +137,7 @@ const HomeScreen = () => {
   const getUsers = async () => {
     try {
       setLoading(true);
-      let query: any = firestore().collection('Todo').limit(pageSize);
-      const snapshot = await query.get();
+      const snapshot = await firestore().collection('Todo').limit(pageSize).get();
 
       if (snapshot.docs.length > 0) {
         const usersList: any = snapshot.docs.map((doc: any) => ({
@@ -187,7 +174,7 @@ const HomeScreen = () => {
           id: doc.id,
           ...doc.data(),
         }));
-        setUsers(prev => [...prev, ...moreUsers]); // Append new users
+        setUsers(prev => [...prev, ...moreUsers]);
         setLastDoc(snapshot.docs[snapshot.docs.length - 1]);
         setHasMore(snapshot.docs.length === pageSize);
       } else {
@@ -200,11 +187,12 @@ const HomeScreen = () => {
     }
   };
 
-  const handleCheckboxChange = (itemId: any) => {
+  const handleCheckboxChange = (itemId: string, newState: boolean) => {
     const updatedUsers = users.map(user =>
-      user.id === itemId ? { ...user, isChecked: !user.isChecked } : user,
+      user.id === itemId ? { ...user, isChecked: newState } : user,
     );
     setUsers(updatedUsers);
+    updateCheckboxStatus(itemId, newState);
   };
 
   const handleEditUser = (user: any) => {
@@ -216,7 +204,7 @@ const HomeScreen = () => {
     });
   };
 
-  const handelClearAllFields = () => {
+  const handleClearAllFields = () => {
     setNewUser({
       name: '',
       age: '',
@@ -231,131 +219,38 @@ const HomeScreen = () => {
       {globalSpinner !== true ? (
         <View style={styles.subContainer}>
           <Text style={styles.heading}>Add User!</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Name"
-            value={newUser.name}
-            onChangeText={text => setNewUser({ ...newUser, name: text })}
+          <UserInputForm
+            name={newUser.name}
+            age={newUser.age}
+            onNameChange={(text) => setNewUser({ ...newUser, name: text })}
+            onAgeChange={(text) => setNewUser({ ...newUser, age: text })}
           />
-          <TextInput
-            style={styles.input}
-            placeholder="Age"
-            value={newUser.age}
-            keyboardType="numeric"
-            onChangeText={text => setNewUser({ ...newUser, age: text })}
+          <ActionButtons
+            isEditing={newUser.isEditing}
+            onSubmit={newUser.isEditing ? () => updateUser(newUser.userId) : addTodo}
+            onClear={handleClearAllFields}
           />
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.buttonLogin}
-              onPress={
-                newUser.isEditing ? () => updateUser(newUser.userId) : addTodo
-              }
-            >
-              <Text style={styles.buttonTextLogin}>
-                {newUser.isEditing ? 'Update User' : 'Add User'}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.buttonLogin}
-              onPress={handelClearAllFields}
-            >
-              <Text style={styles.buttonTextLogin}>Clear All</Text>
-            </TouchableOpacity>
-          </View>
 
           <Text style={styles.subHeading}>Your User List</Text>
-          {/* Users Table */}
           <View style={styles.tableContainer}>
-            <View style={styles.tableHeader}>
-              <Text style={styles.tableHeaderText2}>Select</Text>
-              <Text
-                style={[
-                  styles.tableHeaderText,
-                  { marginLeft: responsiveWidth(-25) },
-                ]}
-              >
-                Name
-              </Text>
-              <Text style={styles.tableHeaderText}>Age</Text>
-              <Text style={styles.tableHeaderText2}>Edit</Text>
-              <Text style={styles.tableHeaderText2}>Delete</Text>
-            </View>
+            <TableHeader />
             <View style={styles.TableFlex}>
               <FlatList
                 data={users}
                 showsVerticalScrollIndicator={false}
-                renderItem={({ item }: any) => (
-                  <View
-                    style={[
-                      styles.tableRow,
-                      {
-                        backgroundColor: item.isChecked ? '#D3F9D8' : '#E3ECF8',
-                      },
-                    ]}
-                  >
-                    <View style={styles.checkBoxContainer}>
-                      <CheckBox
-                        value={item.isChecked}
-                        onValueChange={() => {
-                          const newCheckedState = !item.isChecked;
-                          handleCheckboxChange(item.id);
-                          updateCheckboxStatus(item.id, newCheckedState);
-                        }}
-                        onCheckColor={Colors.blue}
-                        lineWidth={2}
-                        boxType="square"
-                        style={[
-                          {
-                            marginRight: 5,
-                            marginLeft: -4,
-                            borderColor: 'red',
-                          },
-                        ]}
-                      />
-                    </View>
-                    <View style={styles.userNameStyle}>
-                      <Text style={[styles.tableCell]}>
-                        {truncateText(item?.name, 5)}
-                      </Text>
-                    </View>
-                    <Text style={styles.width10Pix}>{item?.age}</Text>
-                    <TouchableOpacity
-                      onPress={() => handleEditUser(item)}
-                      style={styles.width10Pix}
-                    >
-                      <MaterialIcons name="edit" size={30} color="#092E75" />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => deleteUser(item?.id)}
-                      style={styles.width10Pix}
-                    >
-                      <MaterialIcons name="delete" size={30} color="#092E75" />
-                    </TouchableOpacity>
-                  </View>
+                renderItem={({ item }) => (
+                  <UserTableRow
+                    item={item}
+                    onCheckboxChange={handleCheckboxChange}
+                    onEdit={handleEditUser}
+                    onDelete={deleteUser}
+                  />
                 )}
                 keyExtractor={(item: any) => item.id}
                 onEndReached={() => loadMoreUsers()}
                 onEndReachedThreshold={0.5}
-                ListEmptyComponent={
-                  loading ? (
-                    <View style={styles.listEmptyContainer}>
-                      <ActivityIndicator size="large" color="#092E75" />
-                      <Text style={styles.loadingText}>Loading todos...</Text>
-                    </View>
-                  ) : (
-                    <View style={styles.listEmptyContainer}>
-                      <Text>No todos found</Text>
-                    </View>
-                  )
-                }
-                ListFooterComponent={
-                  loadingMore ? (
-                    <View style={styles.listFooterContainer}>
-                      <ActivityIndicator size="small" color="#092E75" />
-                      <Text style={styles.listFooterText}>Loading more...</Text>
-                    </View>
-                  ) : null
-                }
+                ListEmptyComponent={<ListEmptyState isLoading={loading} />}
+                ListFooterComponent={<LoadingFooter isLoading={loadingMore} />}
               />
             </View>
           </View>
@@ -377,68 +272,11 @@ const createStyles = (theme: string) =>
       backgroundColor: '#E3ECF1',
     },
     subContainer: { padding: 10 },
-    title: {
-      fontSize: 24,
-      fontWeight: 'bold',
-    },
-    checkBoxContainer: { width: '20%', alignItems: 'center' },
     tableContainer: {
       marginTop: 20,
       borderTopWidth: 1,
       borderColor: '#ccc',
       paddingTop: 10,
-    },
-    tableHeader: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      paddingBottom: 10,
-      borderBottomWidth: 1,
-      borderColor: '#ccc',
-    },
-    buttonContainer: { flexDirection: 'row', justifyContent: 'space-between' },
-    tableHeaderText: {
-      fontWeight: 'bold',
-      fontSize: 16,
-      width: '20%',
-      textAlign: 'center',
-    },
-    tableHeaderText2: {
-      fontWeight: 'bold',
-      fontSize: 16,
-      width: '15%',
-      textAlign: 'center',
-    },
-    userNameStyle: { width: '20%', marginLeft: responsiveWidth(-10) },
-    tableRow: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      paddingVertical: 10,
-      borderBottomWidth: 1,
-      borderColor: '#ccc',
-    },
-    tableCell: {
-      fontSize: 14,
-    },
-    input: {
-      height: 50,
-      borderColor: '#ccc',
-      borderWidth: 1,
-      marginBottom: 12,
-      paddingLeft: 10,
-      borderRadius: 5,
-    },
-    buttonLogin: {
-      backgroundColor: theme !== 'dark' ? Colors.primary : Colors.secondary,
-      padding: 10,
-      borderRadius: 5,
-      width: '48%',
-    },
-    buttonTextLogin: {
-      color: theme !== 'dark' ? Colors.secondary : Colors.primary,
-      textAlign: 'center',
-      fontSize: 16,
-      fontWeight: 'bold',
     },
     heading: {
       fontSize: 20,
@@ -455,11 +293,6 @@ const createStyles = (theme: string) =>
     TableFlex: {
       height: responsiveHeight(2.8),
     },
-    width10Pix: { width: '10%' },
-    listEmptyContainer: { alignItems: 'center', marginTop: 20 },
-    loadingText: { marginTop: 10 },
-    listFooterContainer: { alignItems: 'center', paddingVertical: 15 },
-    listFooterText: { marginTop: 8, fontSize: 12 },
     activityContainer: {
       flex: 1,
       justifyContent: 'center',
