@@ -1,0 +1,4 @@
+/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/android/app/.cxx/Debug/1x634i5h/x86/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/foo.dir
+/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/android/app/.cxx/Debug/1x634i5h/x86/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/boo.dir
+/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/android/app/.cxx/Debug/1x634i5h/x86/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/edit_cache.dir
+/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/android/app/.cxx/Debug/1x634i5h/x86/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/rebuild_cache.dir

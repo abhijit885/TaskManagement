@@ -1,0 +1,30 @@
+// theme/typography.ts
+export const typography = {
+  fontFamily: {
+    regular: 'PlusJakartaSans-Regular',
+    bold: 'PlusJakartaSans-Bold',
+    medium: 'PlusJakartaSans-Medium',
+    semiBold: 'PlusJakartaSans-SemiBold',
+  },
+  fontSize: {
+     font10: 10,
+       font11: 11,
+    font12: 12,
+    font13: 13,
+    font14: 14,
+    font15: 15,
+    font16: 16,
+    font17: 17,
+    font18: 18,
+    font19: 19,
+    font20: 20,
+    font22: 22,
+    font24: 24,
+    font26: 26,
+    font30: 30,
+    font36: 36,
+    font40: 40,
+    font50: 50,
+    font100: 100,
+  },
+};
