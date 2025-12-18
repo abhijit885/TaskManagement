@@ -23,21 +23,20 @@ import Toast from 'react-native-toast-message';
 import { textFields } from '../../types/task';
 
 const LoginScreen = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const { theme, colors } = useThemeContext();
   const navigation = useNavigation<any>();
   const dispatch = useAppDispatch();
   const isCheckedVal = useSelector(
     (state: any) => state?.profile?.rememberMeData,
   );
-    const styles = useMemo(() => createStyles(theme), [theme, colors]);
-    const parsedData = JSON.parse(isCheckedVal);
+  const styles = useMemo(() => createStyles(theme), [theme, colors]);
+  const parsedData = JSON.parse(isCheckedVal);
   const [data, setData] = useState<textFields>({ email: '', password: '' });
   const [validate, setValidate] = useState<boolean>(false);
   const [visibleEye, setVisibleEye] = useState(false);
-
   const [error, setError] = useState<string | null>(null);
-  // ✅ Load stored credentials
+
   useEffect(() => {
     const checkStoredCredentials = async () => {
       const storedEmail = await AsyncStorage.getItem('userEmail');
@@ -57,86 +56,76 @@ const LoginScreen = () => {
         signInUser({ email: data.email, password: data.password }),
       );
       if (resp?.meta?.requestStatus === 'fulfilled') {
-       
         setData({ email: '', password: '' });
         setValidate(false);
       }
     }
   };
-  
+
   return (
-      <View style={styles.container}>
-        <Text style={styles.header}>Welcome to Task Manager</Text>
-        <Text style={styles.header}>Please Login!</Text>
-
-        {error && <Text style={styles.errorText}>{error}</Text>}
-
+    <View style={styles.container}>
+      <Text style={styles.header}>Welcome to Task Manager</Text>
+      <Text style={styles.header}>Please Login!</Text>
+      {error && <Text style={styles.errorText}>{error}</Text>}
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        value={data.email}
+        onChangeText={text => setData({ ...data, email: text })}
+        keyboardType="email-address"
+        placeholderTextColor={'#000'}
+      />
+      {validate && data.email === '' && (
+        <Text style={styles.TextInputRequired}>
+          Please enter your email address
+        </Text>
+      )}
+      {validate && data.email !== '' && !emailRegex.test(data.email) && (
+        <Text style={styles.TextInputRequired}>
+          Please enter valid email address
+        </Text>
+      )}
+      <View style={[styles.enterPassCont]}>
         <TextInput
           style={styles.input}
-          placeholder="Email"
-          value={data.email}
-          onChangeText={text => setData({ ...data, email: text })}
-          keyboardType="email-address"
+          placeholder="Password"
+          value={data.password}
+          onChangeText={text => setData({ ...data, password: text })}
           placeholderTextColor={'#000'}
+          secureTextEntry={!visibleEye}
         />
-        {validate && data.email === '' && (
-          <Text style={styles.TextInputRequired}>
-            Please enter your email address
-          </Text>
-        )}
-        {validate && data.email !== '' && !emailRegex.test(data.email) && (
-          <Text style={styles.TextInputRequired}>
-            Please enter valid email address
-          </Text>
-        )}
-        <View style={[styles.enterPassCont]}>
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            value={data.password}
-            onChangeText={text => setData({ ...data, password: text })}
-            placeholderTextColor={'#000'}
-            secureTextEntry={!visibleEye}
-          />
-          <TouchableOpacity
-            onPress={() => {
-              managePasswordVisibility();
-            }}
-            style={styles.passEyeIconContainer}
-          >
-            <Ionicons
-              name={!visibleEye ? 'eye-off-outline' : 'eye-outline'}
-              color={Colors.primary}
-              size={responsiveWidth(16)}
-            />
-          </TouchableOpacity>
-        </View>
-        {validate && data.password === '' && (
-          <Text style={styles.TextInputRequired}>
-            Please enter your password
-          </Text>
-        )}
-        <TouchableOpacity style={styles.buttonLogin} onPress={handleSignIn}>
-          <Text style={styles.buttonTextLogin}>Login</Text>
-        </TouchableOpacity>
         <TouchableOpacity
-          style={styles.buttonSignUp}
-          onPress={
-            () => navigation.navigate('SignUp')
-          }
+          onPress={() => {
+            managePasswordVisibility();
+          }}
+          style={styles.passEyeIconContainer}
         >
-          <Text style={styles.buttonTextSignUp}>Sign Up</Text>
+          <Ionicons
+            name={!visibleEye ? 'eye-off-outline' : 'eye-outline'}
+            color={Colors.primary}
+            size={responsiveWidth(16)}
+          />
         </TouchableOpacity>
-        <Text style={styles.footer}>
-          Don't have an account?{' '}
-          <Text
-            style={styles.link}
-            onPress={() => navigation.navigate('SignUp')}
-          >
-            Sign up
-          </Text>
-        </Text>
       </View>
+      {validate && data.password === '' && (
+        <Text style={styles.TextInputRequired}>Please enter your password</Text>
+      )}
+      <TouchableOpacity style={styles.buttonLogin} onPress={handleSignIn}>
+        <Text style={styles.buttonTextLogin}>Login</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.buttonSignUp}
+        onPress={() => navigation.navigate('SignUp')}
+      >
+        <Text style={styles.buttonTextSignUp}>Sign Up</Text>
+      </TouchableOpacity>
+      <Text style={styles.footer}>
+        Don't have an account?
+        <Text style={styles.link} onPress={() => navigation.navigate('SignUp')}>
+          Sign up
+        </Text>
+      </Text>
+    </View>
   );
 };
 

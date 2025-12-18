@@ -51,7 +51,7 @@ const SignUpScreen = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+    <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <Text style={styles.header}>Welcome to Task Manager</Text>
         <Text style={styles.header}>Please SignUp!</Text>
@@ -110,6 +110,7 @@ export default SignUpScreen;
 
 const createStyles = (theme: string) =>
   StyleSheet.create({
+    safeArea:{ flex: 1, backgroundColor: '#fff' },
     container: {
       flex: 1,
       justifyContent: 'center',
@@ -152,7 +153,7 @@ const createStyles = (theme: string) =>
       marginTop: 10,
     },
     buttonTextLogin: {
-      color: theme !== 'dark' ? Colors.background : Colors.primary,
+      color:  Colors.primary,
       textAlign: 'center',
     },
     buttonSignUp: {

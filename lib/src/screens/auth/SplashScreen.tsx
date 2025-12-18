@@ -15,7 +15,7 @@ const SplashScreen = () => {
 
   return (
       <View style={styles.container}>
-        <Text style={{fontSize:responsiveWidth(12),fontWeight:'500'}}>Welcome Back</Text>
+        <Text style={styles.welcomeText}>Welcome Back</Text>
       </View>
   );
 };
@@ -29,10 +29,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#fff',  
   },
-  splashImage: {
-    height: 80,
-    width: responsiveWidth(1.5),
-    alignSelf: 'center',
-    marginBottom: 5,
-  },
+ welcomeText:{fontSize:responsiveWidth(12),fontWeight:'500'}
 });

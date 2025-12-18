@@ -62,7 +62,7 @@ const HomeScreen = () => {
       return;
     }
     try {
-     const docRef = await firestore()
+      const docRef = await firestore()
         .collection('Todo')
         .add({
           name: newUser.name,
@@ -74,13 +74,13 @@ const HomeScreen = () => {
         type: 'success',
         text1: 'User Added',
       });
-    const newUserData = {
-      id: docRef.id,
-      name: newUser.name,
-      age: parseInt(newUser.age),
-      isChecked: false,
-    };
-    setUsers([newUserData, ...users]);
+      const newUserData = {
+        id: docRef.id,
+        name: newUser.name,
+        age: parseInt(newUser.age),
+        isChecked: false,
+      };
+      setUsers([newUserData, ...users]);
       setNewUser({ name: '', age: '', isChecked: false });
       //getUsers();
     } catch (error) {
@@ -229,7 +229,7 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       {globalSpinner !== true ? (
-        <View style={{ padding: 10 }}>
+        <View style={styles.subContainer}>
           <Text style={styles.heading}>Add User!</Text>
           <TextInput
             style={styles.input}
@@ -244,9 +244,7 @@ const HomeScreen = () => {
             keyboardType="numeric"
             onChangeText={text => setNewUser({ ...newUser, age: text })}
           />
-          <View
-            style={{ flexDirection: 'row', justifyContent: 'space-between' }}
-          >
+          <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.buttonLogin}
               onPress={
@@ -295,7 +293,7 @@ const HomeScreen = () => {
                       },
                     ]}
                   >
-                    <View style={{ width: '20%', alignItems: 'center' }}>
+                    <View style={styles.checkBoxContainer}>
                       <CheckBox
                         value={item.isChecked}
                         onValueChange={() => {
@@ -315,23 +313,21 @@ const HomeScreen = () => {
                         ]}
                       />
                     </View>
-                    <View
-                      style={{ width: '20%', marginLeft: responsiveWidth(-10) }}
-                    >
+                    <View style={styles.userNameStyle}>
                       <Text style={[styles.tableCell]}>
                         {truncateText(item?.name, 5)}
                       </Text>
                     </View>
-                    <Text style={{ width: '10%' }}>{item?.age}</Text>
+                    <Text style={styles.width10Pix}>{item?.age}</Text>
                     <TouchableOpacity
                       onPress={() => handleEditUser(item)}
-                      style={{ width: '10%' }}
+                      style={styles.width10Pix}
                     >
                       <MaterialIcons name="edit" size={30} color="#092E75" />
                     </TouchableOpacity>
                     <TouchableOpacity
                       onPress={() => deleteUser(item?.id)}
-                      style={{ width: '10%' }}
+                      style={styles.width10Pix}
                     >
                       <MaterialIcons name="delete" size={30} color="#092E75" />
                     </TouchableOpacity>
@@ -342,23 +338,21 @@ const HomeScreen = () => {
                 onEndReachedThreshold={0.5}
                 ListEmptyComponent={
                   loading ? (
-                    <View style={{ alignItems: 'center', marginTop: 20 }}>
+                    <View style={styles.listEmptyContainer}>
                       <ActivityIndicator size="large" color="#092E75" />
-                      <Text style={{ marginTop: 10 }}>Loading todos...</Text>
+                      <Text style={styles.loadingText}>Loading todos...</Text>
                     </View>
                   ) : (
-                    <View style={{ alignItems: 'center', marginTop: 20 }}>
+                    <View style={styles.listEmptyContainer}>
                       <Text>No todos found</Text>
                     </View>
                   )
                 }
                 ListFooterComponent={
                   loadingMore ? (
-                    <View style={{ alignItems: 'center', paddingVertical: 15 }}>
+                    <View style={styles.listFooterContainer}>
                       <ActivityIndicator size="small" color="#092E75" />
-                      <Text style={{ marginTop: 8, fontSize: 12 }}>
-                        Loading more...
-                      </Text>
+                      <Text style={styles.listFooterText}>Loading more...</Text>
                     </View>
                   ) : null
                 }
@@ -367,14 +361,7 @@ const HomeScreen = () => {
           </View>
         </View>
       ) : (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: '#fff',
-          }}
-        >
+        <View style={styles.activityContainer}>
           <ActivityIndicator size="large" color="#000" />
           <Text style={styles.heading}>Loading...</Text>
         </View>
@@ -389,10 +376,12 @@ const createStyles = (theme: string) =>
       flex: 1,
       backgroundColor: '#E3ECF1',
     },
+    subContainer: { padding: 10 },
     title: {
       fontSize: 24,
       fontWeight: 'bold',
     },
+    checkBoxContainer: { width: '20%', alignItems: 'center' },
     tableContainer: {
       marginTop: 20,
       borderTopWidth: 1,
@@ -406,6 +395,7 @@ const createStyles = (theme: string) =>
       borderBottomWidth: 1,
       borderColor: '#ccc',
     },
+    buttonContainer: { flexDirection: 'row', justifyContent: 'space-between' },
     tableHeaderText: {
       fontWeight: 'bold',
       fontSize: 16,
@@ -418,6 +408,7 @@ const createStyles = (theme: string) =>
       width: '15%',
       textAlign: 'center',
     },
+    userNameStyle: { width: '20%', marginLeft: responsiveWidth(-10) },
     tableRow: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -463,6 +454,17 @@ const createStyles = (theme: string) =>
     },
     TableFlex: {
       height: responsiveHeight(2.8),
+    },
+    width10Pix: { width: '10%' },
+    listEmptyContainer: { alignItems: 'center', marginTop: 20 },
+    loadingText: { marginTop: 10 },
+    listFooterContainer: { alignItems: 'center', paddingVertical: 15 },
+    listFooterText: { marginTop: 8, fontSize: 12 },
+    activityContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#fff',
     },
   });
 
