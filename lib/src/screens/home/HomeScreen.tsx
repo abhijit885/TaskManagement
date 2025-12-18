@@ -103,6 +103,7 @@ const HomeScreen = () => {
           age: parseInt(newUser.age),
           city: newUser.city,
         });
+        getUsers();
       console.log('User updated!', updatedUser);
     } catch (error) {
       console.log('Error updating user: ', error);

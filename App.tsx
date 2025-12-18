@@ -23,6 +23,7 @@ import { useEffect } from 'react';
 import MainNavigator from './lib/src/navigation/MainNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
+import { FIREBASE_API_KEY } from 'react-native-dotenv';
 
 // function AppContent() {
 
@@ -42,6 +43,8 @@ function App() {
   };
   useEffect(() => {
     getToken();
+    console.log("FIREBASE_API_KEY>>>>",FIREBASE_API_KEY);  // Access the Firebase API Key
+
   }, [verifyToken]);
 
   return (
