@@ -1,12 +1,7 @@
 import React from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
-
-interface UserInputFormProps {
-  name: string;
-  age: string;
-  onNameChange: (text: string) => void;
-  onAgeChange: (text: string) => void;
-}
+import { View } from 'react-native';
+import CustomTextInput from './CustomTextInput';
+import { UserInputFormProps } from '../../../types/task';
 
 const UserInputForm: React.FC<UserInputFormProps> = ({
   name,
@@ -16,32 +11,19 @@ const UserInputForm: React.FC<UserInputFormProps> = ({
 }) => {
   return (
     <View>
-      <TextInput
-        style={styles.input}
+      <CustomTextInput
         placeholder="Name"
         value={name}
         onChangeText={onNameChange}
       />
-      <TextInput
-        style={styles.input}
+      <CustomTextInput
         placeholder="Age"
         value={age}
-        keyboardType="numeric"
         onChangeText={onAgeChange}
+        keyboardType="numeric"
       />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  input: {
-    height: 50,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    marginBottom: 12,
-    paddingLeft: 10,
-    borderRadius: 5,
-  },
-});
 
 export default UserInputForm;
