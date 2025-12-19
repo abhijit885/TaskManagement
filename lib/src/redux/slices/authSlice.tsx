@@ -2,7 +2,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import * as Keychain from 'react-native-keychain';
 import { auth } from '../../firebase/config';
-import { Alert } from 'react-native';
 import Toast from 'react-native-toast-message';
 
 interface Initial {
@@ -51,11 +50,29 @@ export const signInUser: any = createAsyncThunk(
         service: 'accessToken',
       });
       await AsyncStorage.setItem('loginKey', result?.user?.uid);
-      const verifyEd = result?.user?.uid
+      const verifyEd = result?.user?.uid;
+      
+      // Show success toast
+      Toast.show({
+        type: 'success',
+        text1: '✅ Login Successful',
+        text2: 'Welcome back!',
+        visibilityTime: 2000,
+      });
+      
       return verifyEd;
     } catch (error: any) {
-      Alert.alert('invalid-credential');
       console.log('LOGIN ERROR >>>> ', error);
+      
+      // Show error toast
+      Toast.show({
+        type: 'error',
+        text1: '❌ Invalid Credential',
+        text2: 'Please check your email and password',
+        visibilityTime: 3000,
+      });
+      
+      return rejectWithValue('Invalid credentials');
     }
   },
 );
@@ -70,10 +87,28 @@ export const signUpUser: any = createAsyncThunk(
         body.password,
       );
       console.log('User SignUp Result:', userSignup?.user?.uid);
-      //dispatch(setEmail(body.email));
+      
+      // Show success toast
+      Toast.show({
+        type: 'success',
+        text1: '✅ Account Created',
+        text2: 'Please login with your credentials',
+        visibilityTime: 2000,
+      });
+      
       return userSignup;
     } catch (error: any) {
       console.log('SIGNUP ERROR >>>> ', error);
+      
+      // Show error toast
+      Toast.show({
+        type: 'error',
+        text1: '❌ Signup Failed',
+        text2: error?.message || 'Please try again',
+        visibilityTime: 3000,
+      });
+      
+      return rejectWithValue(error?.message || 'Signup failed');
     }
   },
 );
