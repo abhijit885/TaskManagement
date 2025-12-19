@@ -39,7 +39,6 @@ export const signInUser: any = createAsyncThunk(
   'SignInUser',
   async (body: any, { rejectWithValue }) => {
     console.log('LOGIN BODY >>>> ', body);
-    
     try {
       const result = await auth().signInWithEmailAndPassword(
         body.email,
@@ -51,27 +50,21 @@ export const signInUser: any = createAsyncThunk(
       });
       await AsyncStorage.setItem('loginKey', result?.user?.uid);
       const verifyEd = result?.user?.uid;
-      
-      // Show success toast
       Toast.show({
         type: 'success',
-        text1: '✅ Login Successful',
+        text1: 'Login Successful',
         text2: 'Welcome back!',
         visibilityTime: 2000,
       });
-      
       return verifyEd;
     } catch (error: any) {
       console.log('LOGIN ERROR >>>> ', error);
-      
-      // Show error toast
       Toast.show({
         type: 'error',
-        text1: '❌ Invalid Credential',
+        text1: 'Invalid Credential',
         text2: 'Please check your email and password',
         visibilityTime: 3000,
       });
-      
       return rejectWithValue('Invalid credentials');
     }
   },
@@ -87,27 +80,22 @@ export const signUpUser: any = createAsyncThunk(
         body.password,
       );
       console.log('User SignUp Result:', userSignup?.user?.uid);
-      
-      // Show success toast
       Toast.show({
         type: 'success',
-        text1: '✅ Account Created',
+        text1: 'Account Created',
         text2: 'Please login with your credentials',
         visibilityTime: 2000,
       });
-      
+
       return userSignup;
     } catch (error: any) {
       console.log('SIGNUP ERROR >>>> ', error);
-      
-      // Show error toast
       Toast.show({
         type: 'error',
-        text1: '❌ Signup Failed',
+        text1: 'Signup Failed',
         text2: error?.message || 'Please try again',
         visibilityTime: 3000,
       });
-      
       return rejectWithValue(error?.message || 'Signup failed');
     }
   },
@@ -132,11 +120,7 @@ export const signOut: any = createAsyncThunk(
 const authSlice = createSlice({
   name: 'userAuth',
   initialState: initialState,
-  reducers: {
-    updateLoginToken(state: Initial, action: PayloadAction<null | string>) {
-      state.loginToken = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: builder => {
     //LOG_IN
     builder.addCase(signInUser.pending, (state, _) => {
@@ -146,10 +130,6 @@ const authSlice = createSlice({
     builder.addCase(signInUser.fulfilled, (state, action) => {
       state.globalLoading = false;
       state.loginToken = action.payload;
-      //  Toast.show({
-      //     type: 'success',
-      //     text1: 'Login Successfully',
-      //   });
       Keychain.setGenericPassword('AccessToken', action.payload, {
         service: 'accessToken',
       });
@@ -166,7 +146,6 @@ const authSlice = createSlice({
       state.globalLoading = false;
       Keychain.resetGenericPassword({ service: 'accessToken' });
       state.loginToken = null;
-
       AsyncStorage.removeItem('LANG');
     });
     builder.addCase(signOut.rejected, (state, _) => {
@@ -185,5 +164,4 @@ const authSlice = createSlice({
   },
 });
 
-export const { updateLoginToken } = authSlice.actions;
 export default authSlice.reducer;

@@ -82,14 +82,14 @@ const HomeScreen = () => {
       if (online) {
         Toast.show({
           type: 'success',
-          text1: '🌐 You are online',
+          text1: 'You are online',
           text2: 'Syncing your changes...',
           visibilityTime: 3000,
         });
       } else {
         Toast.show({
           type: 'error',
-          text1: '📴 You are offline',
+          text1: 'You are offline',
           text2: 'Changes will be saved locally',
           visibilityTime: 3000,
         });
@@ -180,7 +180,7 @@ const HomeScreen = () => {
 
       Toast.show({
         type: 'success',
-        text1: '✅ User Added',
+        text1: 'User Added',
         text2: isOnline ? 'Syncing in background...' : 'Saved locally',
         visibilityTime: 2000,
       });
@@ -221,7 +221,7 @@ const HomeScreen = () => {
 
       Toast.show({
         type: 'success',
-        text1: '✅ User Updated',
+        text1: 'User Updated',
         text2: isOnline ? 'Syncing in background...' : 'Saved locally',
         visibilityTime: 2000,
       });
@@ -348,7 +348,6 @@ const HomeScreen = () => {
             onSubmit={newUser.isEditing ? () => updateUser(newUser.userId!) : addTodo}
             onClear={handleClearAllFields}
           />
-
           <Text style={styles.subHeading}>Your User List</Text>
           <View style={styles.tableContainer}>
             <TableHeader />

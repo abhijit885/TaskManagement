@@ -90,7 +90,7 @@ class SyncService {
 
         // If we just came back online, trigger full sync
         if (wasOffline && this.isOnline) {
-          console.log('🌐 Network restored - triggering auto sync...');
+          console.log('Network restored - triggering auto sync...');
           this.autoSyncOnReconnect();
         }
       }
@@ -106,12 +106,12 @@ class SyncService {
       // Then pull any new data from Firebase
       await this.pullFromFirebase();
       
-      console.log('✅ Auto sync completed successfully');
+      console.log('Auto sync completed successfully');
       
       // Notify listeners that sync is complete
       this.notifySyncComplete();
     } catch (error) {
-      console.error('❌ Auto sync failed:', error);
+      console.error('Auto sync failed:', error);
     }
   }
 
@@ -136,16 +136,12 @@ class SyncService {
       return false;
     }
   }
-
-  // =====================
   // TODO CRUD OPERATIONS
-  // =====================
-
   // Add Todo - ALWAYS saves locally first, then syncs if online
   async addTodo(data: { name: string; age: number; isChecked?: boolean }): Promise<Todo> {
     const todosCollection = database.get<Todo>('todos');
 
-    // Step 1: ALWAYS save to local DB first (instant)
+    //ALWAYS save to local DB first (instant)
     const newTodo = await database.write(async () => {
       return await todosCollection.create(todo => {
         todo.firebaseId = '';
@@ -157,9 +153,9 @@ class SyncService {
       });
     });
 
-    console.log('📝 Todo saved locally with ID:', newTodo.id);
+    console.log('Todo saved locally with ID:', newTodo.id);
 
-    // Step 2: Try to sync if online (non-blocking)
+    //Try to sync if online (non-blocking)
     this.trySyncNewTodo(newTodo.id);
 
     // Return the local todo immediately
@@ -171,13 +167,11 @@ class SyncService {
     try {
       const isOnline = await this.checkConnection();
       if (!isOnline) {
-        console.log('📴 Offline - will sync later');
+        console.log('Offline - will sync later');
         return;
       }
-
       const todosCollection = database.get<Todo>('todos');
       const todo = await todosCollection.find(todoId);
-
       const docRef = await firestore()
         .collection('Todo')
         .add({
@@ -194,21 +188,20 @@ class SyncService {
         });
       });
 
-      console.log('✅ Todo synced to Firebase:', docRef.id);
+      console.log('Todo synced to Firebase:', docRef.id);
       // Notify listeners to refresh UI
       this.notifySyncComplete();
     } catch (error) {
-      console.log('❌ Sync failed, will retry later:', error);
+      console.log('Sync failed, will retry later:', error);
     }
   }
-
   // Update Todo - ALWAYS updates locally first, then syncs if online
   async updateTodo(localId: string, data: Partial<{ name: string; age: number; isChecked: boolean }>): Promise<Todo> {
     const todosCollection = database.get<Todo>('todos');
     const todo = await todosCollection.find(localId);
     const currentSyncStatus = todo.localSyncStatus;
 
-    // Step 1: ALWAYS update local DB first (instant)
+    //ALWAYS update local DB first (instant)
     await database.write(async () => {
       await todo.update(record => {
         if (data.name !== undefined) record.name = data.name;
@@ -218,15 +211,11 @@ class SyncService {
         record.localSyncStatus = currentSyncStatus === 'created' ? 'created' : 'updated';
       });
     });
-
     console.log('📝 Todo updated locally:', localId);
-
     // Get updated todo
     const updatedTodo = await todosCollection.find(localId);
-
-    // Step 2: Try to sync if online (non-blocking)
+    // Try to sync if online (non-blocking)
     this.trySyncUpdatedTodo(localId, data);
-
     // Return the local todo immediately
     return updatedTodo;
   }
@@ -265,11 +254,11 @@ class SyncService {
         });
       });
 
-      console.log('✅ Todo update synced to Firebase');
+      console.log('Todo update synced to Firebase');
       // Notify listeners to refresh UI
       this.notifySyncComplete();
     } catch (error) {
-      console.log('❌ Update sync failed, will retry later:', error);
+      console.log('Update sync failed, will retry later:', error);
     }
   }
 
@@ -284,7 +273,7 @@ class SyncService {
       await database.write(async () => {
         await todo.destroyPermanently();
       });
-      console.log('🗑️ Offline-created todo deleted locally');
+      console.log('Offline-created todo deleted locally');
       return;
     }
 
@@ -296,7 +285,7 @@ class SyncService {
       });
     });
 
-    console.log('🗑️ Todo marked for deletion:', localId);
+    console.log('Todo marked for deletion:', localId);
 
     // Try to sync delete if online (non-blocking)
     this.trySyncDeletedTodo(localId, firebaseId);
@@ -307,7 +296,7 @@ class SyncService {
     try {
       const isOnline = await this.checkConnection();
       if (!isOnline) {
-        console.log('📴 Offline - will sync delete later');
+        console.log('Offline - will sync delete later');
         return;
       }
 
@@ -327,9 +316,9 @@ class SyncService {
         // Already deleted
       }
 
-      console.log('✅ Todo deleted from Firebase');
+      console.log('Todo deleted from Firebase');
     } catch (error) {
-      console.log('❌ Delete sync failed, will retry later:', error);
+      console.log('Delete sync failed, will retry later:', error);
     }
   }
 
@@ -348,11 +337,7 @@ class SyncService {
       Q.where('sync_status', Q.notEq('deleted'))
     ).observe();
   }
-
-  // =====================
   // SYNC OPERATIONS
-  // =====================
-
   // Sync all pending changes to Firebase
   async syncToFirebase(): Promise<void> {
     if (this.syncInProgress) {

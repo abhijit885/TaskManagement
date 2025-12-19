@@ -26,7 +26,7 @@ const AppNavigator: React.FC = () => {
         <NavigationContainer
           ref={navigationRef}
           onReady={() => {
-            console.log('✅ Navigation is ready');
+            console.log('Navigation is ready');
             processPendingNavigation();
           }}
         >
