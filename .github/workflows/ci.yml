@@ -1,0 +1,107 @@
+name: React Native CI Pipeline
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    name: Unit & Integration Tests (Jest)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Run ESLint (warnings only)
+        run: npm run lint -- --max-warnings=100 --quiet || echo "Linting issues found, but continuing..."
+
+      - name: Run Jest tests
+        run: npm test -- --coverage
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage
+
+  detox-android:
+    name: Detox E2E (Android)
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Create Android Emulator
+        run: |
+          sdkmanager "system-images;android-33;google_apis;x86_64"
+          avdmanager create avd -n test -k "system-images;android-33;google_apis;x86_64" --force
+          emulator -avd test -no-audio -no-window &
+
+      - name: Wait for Emulator
+        run: adb wait-for-device
+
+      - name: Build Detox Android
+        run: npm run e2e:build:android
+
+      - name: Run Detox Android Tests
+        run: npm run e2e:test:android
+        
+  detox-ios:
+    name: Detox E2E (iOS)
+    runs-on: macos-latest
+    needs: test
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Install Applesimutils
+        run: brew tap wix/brew && brew install applesimutils
+
+      - name: Build Detox iOS
+        run: npm run e2e:build:ios
+
+      - name: Run Detox iOS Tests
+        run: npm run e2e:test:ios

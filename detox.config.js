@@ -25,5 +25,15 @@ module.exports = {
         },
       },
     },
+    'ios.sim.debug': {
+      type: 'ios.simulator',
+      device: {
+        type: 'iPhone 14',
+      },
+      app: {
+        binaryPath: 'ios/build/Build/Products/Debug-iphonesimulator/TaskManagement.app',
+        build: 'xcodebuild -workspace ios/TaskManagement.xcworkspace -scheme TaskManagement -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build',
+      },
+    },
   },
 };
