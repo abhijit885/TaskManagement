@@ -5,7 +5,7 @@ import AppNavigator from './lib/src/navigation/AppNavigator';
 import notifee, { EventType } from '@notifee/react-native';
 import NetInfo from '@react-native-community/netinfo';
 import { fetchToken } from './lib/src/redux/slices/authSlice';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import MainNavigator from './lib/src/navigation/MainNavigator';
 import messaging from '@react-native-firebase/messaging';
 import React from 'react';
@@ -21,18 +21,13 @@ function App() {
   const dispatch = useDispatch();
   const verifyToken = useSelector<any>(state => state.user);
   console.log('verifyToken in App.tsx', verifyToken);
-  const getToken = async () => {
+  const getToken = useCallback(async () => {
     var fetchToken2 = await dispatch(fetchToken());
     console.log('fetchToken2 in App.tsx', fetchToken2?.payload);
     setLocalToken(fetchToken2?.payload);
-  };
-  useEffect(() => {
-    getToken();
-    requestUserPermission();
-    //console.log('FIREBASE_API_KEY>>>>', FIREBASE_API_KEY);
-  }, [verifyToken, getToken, requestUserPermission]);
+  }, [dispatch]);
 
-  async function requestUserPermission() {
+  const requestUserPermission = useCallback(async () => {
     // const authorizationStatus = await messaging().requestPermission();
     const authorizationStatus = await messaging().requestPermission({
       sound: true,
@@ -52,7 +47,13 @@ function App() {
     } else {
       console.log('User has notification permissions disabled');
     }
-  }
+  }, []);
+
+  useEffect(() => {
+    getToken();
+    requestUserPermission();
+    //console.log('FIREBASE_API_KEY>>>>', FIREBASE_API_KEY);
+  }, [getToken, requestUserPermission]);
 
   const checkToken = async () => {
     const fcmToken = await messaging().getToken();

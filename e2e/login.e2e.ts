@@ -31,7 +31,7 @@ describe('Login Flow', () => {
     // Check if we're still on login screen (login failed) or navigated away
     try {
       await expect(element(by.text('Welcome'))).toBeVisible();
-    } catch (_e) {
+    } catch {
       // If welcome text not found, check if we're still on login screen
       console.log('Login might have failed, checking if still on login screen');
       await expect(element(by.id('emailInput'))).toBeVisible();
