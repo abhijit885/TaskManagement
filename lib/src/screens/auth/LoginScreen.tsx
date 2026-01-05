@@ -74,6 +74,7 @@ const LoginScreen = () => {
         onChangeText={text => setData({ ...data, email: text })}
         keyboardType="email-address"
         placeholderTextColor={'#000'}
+        testID="emailInput"
       />
       {validate && data.email === '' && (
         <Text style={styles.TextInputRequired}>
@@ -93,6 +94,7 @@ const LoginScreen = () => {
           onChangeText={text => setData({ ...data, password: text })}
           placeholderTextColor={'#000'}
           secureTextEntry={!visibleEye}
+          testID="passwordInput"
         />
         <TouchableOpacity
           onPress={() => {
@@ -110,7 +112,11 @@ const LoginScreen = () => {
       {validate && data.password === '' && (
         <Text style={styles.TextInputRequired}>Please enter your password</Text>
       )}
-      <TouchableOpacity style={styles.buttonLogin} onPress={handleSignIn}>
+      <TouchableOpacity 
+      style={styles.buttonLogin} 
+      onPress={handleSignIn}
+      testID="loginButton"
+      >
         <Text style={styles.buttonTextLogin}>Login</Text>
       </TouchableOpacity>
       <TouchableOpacity

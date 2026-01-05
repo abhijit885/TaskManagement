@@ -1,0 +1,11 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <uses-library android:name="android.test.runner" />
+    </application>
+
+    <instrumentation
+        android:name="com.taskmanagement.DetoxTestRunner"
+        android:targetPackage="com.taskmanagement"
+        android:label="Detox Tests"/>
+</manifest>

@@ -1,4 +1,4 @@
-import { Appearance, LogBox, PermissionsAndroid, Platform } from 'react-native';
+import { Appearance, LogBox, PermissionsAndroid, Platform, View, Text } from 'react-native';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { ThemeProvider } from './lib/src/theme/ThemeContext';
 import AppNavigator from './lib/src/navigation/AppNavigator';
@@ -128,10 +128,25 @@ function App() {
     }
   };
 
+  // For E2E testing, use a simplified view
+  if (__DEV__ && process.env.DETOX === 'true') {
+    return (
+      <ThemeProvider>
+        <View testID="app-root" style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text testID="welcome-text">App Ready for E2E Testing</Text>
+          {localToken ? <MainNavigator /> : <AppNavigator />}
+          <Toast />
+        </View>
+      </ThemeProvider>
+    );
+  }
+
   return (
     <ThemeProvider>
-      {localToken ? <MainNavigator /> : <AppNavigator />}
-      <Toast />
+      <View testID="app-root" style={{ flex: 1 }}>
+        {localToken ? <MainNavigator /> : <AppNavigator />}
+        <Toast />
+      </View>
     </ThemeProvider>
   );
 }
