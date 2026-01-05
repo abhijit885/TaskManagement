@@ -1,0 +1,4 @@
+/Users/macmini6/WorkSpace/TaskManagement/android/app/.cxx/Debug/2w1g5f6n/arm64-v8a/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/foo.dir
+/Users/macmini6/WorkSpace/TaskManagement/android/app/.cxx/Debug/2w1g5f6n/arm64-v8a/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/boo.dir
+/Users/macmini6/WorkSpace/TaskManagement/android/app/.cxx/Debug/2w1g5f6n/arm64-v8a/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/edit_cache.dir
+/Users/macmini6/WorkSpace/TaskManagement/android/app/.cxx/Debug/2w1g5f6n/arm64-v8a/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/rebuild_cache.dir

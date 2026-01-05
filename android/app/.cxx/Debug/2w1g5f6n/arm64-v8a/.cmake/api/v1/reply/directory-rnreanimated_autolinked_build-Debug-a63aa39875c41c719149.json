@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "rnreanimated_autolinked_build",
+		"source" : "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-reanimated/android/build/generated/source/codegen/jni"
+	}
+}

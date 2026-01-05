@@ -1,0 +1,1 @@
+/Users/macmini6/WorkSpace/TaskManagement/android/app/build/intermediates/cxx/Debug/2w1g5f6n/obj/arm64-v8a

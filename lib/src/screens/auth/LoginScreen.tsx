@@ -31,7 +31,7 @@ const LoginScreen = () => {
     (state: any) => state?.profile?.rememberMeData,
   );
   const styles = useMemo(() => createStyles(theme), [theme, colors]);
-  const parsedData = JSON.parse(isCheckedVal);
+  //const parsedData = JSON.parse(isCheckedVal);
   const [data, setData] = useState<textFields>({ email: '', password: '' });
   const [validate, setValidate] = useState<boolean>(false);
   const [visibleEye, setVisibleEye] = useState(false);
@@ -42,7 +42,7 @@ const LoginScreen = () => {
       const storedEmail = await AsyncStorage.getItem('userEmail');
     };
     checkStoredCredentials();
-  }, [parsedData]);
+  }, []);//parsedData
 
   const managePasswordVisibility = () => {
     setVisibleEye(!visibleEye);

@@ -1,21 +1,21 @@
 {
-  "root": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement",
-  "reactNativePath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native",
+  "root": "/Users/macmini6/WorkSpace/TaskManagement",
+  "reactNativePath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native",
   "reactNativeVersion": "0.83",
   "dependencies": {
     "react-native-vector-icons": {
-      "root": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-vector-icons",
+      "root": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-vector-icons",
       "name": "react-native-vector-icons",
       "platforms": {
         "ios": null,
         "android": {
-          "sourceDir": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-vector-icons/android",
+          "sourceDir": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-vector-icons/android",
           "packageImportPath": "import com.oblador.vectoricons.VectorIconsPackage;",
           "packageInstance": "new VectorIconsPackage()",
           "buildTypes": [],
           "libraryName": "RNVectorIconsSpec",
           "componentDescriptors": [],
-          "cmakeListsPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-vector-icons/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-vector-icons/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -24,22 +24,22 @@
       }
     },
     "@notifee/react-native": {
-      "root": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@notifee/react-native",
+      "root": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@notifee/react-native",
       "name": "@notifee/react-native",
       "platforms": {
         "ios": {
-          "podspecPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@notifee/react-native/RNNotifee.podspec",
+          "podspecPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@notifee/react-native/RNNotifee.podspec",
           "version": "9.1.8",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@notifee/react-native/android",
+          "sourceDir": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@notifee/react-native/android",
           "packageImportPath": "import io.invertase.notifee.NotifeePackage;",
           "packageInstance": "new NotifeePackage()",
           "buildTypes": [],
           "componentDescriptors": [],
-          "cmakeListsPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@notifee/react-native/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@notifee/react-native/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -48,22 +48,22 @@
       }
     },
     "@nozbe/watermelondb": {
-      "root": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@nozbe/watermelondb",
+      "root": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@nozbe/watermelondb",
       "name": "@nozbe/watermelondb",
       "platforms": {
         "ios": {
-          "podspecPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@nozbe/watermelondb/WatermelonDB.podspec",
+          "podspecPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@nozbe/watermelondb/WatermelonDB.podspec",
           "version": "0.28.0",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@nozbe/watermelondb/native/android",
+          "sourceDir": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@nozbe/watermelondb/native/android",
           "packageImportPath": "import com.nozbe.watermelondb.WatermelonDBPackage;",
           "packageInstance": "new WatermelonDBPackage()",
           "buildTypes": [],
           "componentDescriptors": [],
-          "cmakeListsPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@nozbe/watermelondb/native/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@nozbe/watermelondb/native/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -72,23 +72,23 @@
       }
     },
     "@react-native-async-storage/async-storage": {
-      "root": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-async-storage/async-storage",
+      "root": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-async-storage/async-storage",
       "name": "@react-native-async-storage/async-storage",
       "platforms": {
         "ios": {
-          "podspecPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-async-storage/async-storage/RNCAsyncStorage.podspec",
+          "podspecPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-async-storage/async-storage/RNCAsyncStorage.podspec",
           "version": "1.24.0",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-async-storage/async-storage/android",
+          "sourceDir": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-async-storage/async-storage/android",
           "packageImportPath": "import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;",
           "packageInstance": "new AsyncStoragePackage()",
           "buildTypes": [],
           "libraryName": "rnasyncstorage",
           "componentDescriptors": [],
-          "cmakeListsPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-async-storage/async-storage/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-async-storage/async-storage/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -97,22 +97,22 @@
       }
     },
     "@react-native-community/checkbox": {
-      "root": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-community/checkbox",
+      "root": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-community/checkbox",
       "name": "@react-native-community/checkbox",
       "platforms": {
         "ios": {
-          "podspecPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-community/checkbox/RNCCheckbox.podspec",
+          "podspecPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-community/checkbox/RNCCheckbox.podspec",
           "version": "0.5.20",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-community/checkbox/android",
+          "sourceDir": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-community/checkbox/android",
           "packageImportPath": "import com.reactnativecommunity.checkbox.ReactCheckBoxPackage;",
           "packageInstance": "new ReactCheckBoxPackage()",
           "buildTypes": [],
           "componentDescriptors": [],
-          "cmakeListsPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-community/checkbox/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-community/checkbox/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -121,22 +121,22 @@
       }
     },
     "@react-native-community/netinfo": {
-      "root": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-community/netinfo",
+      "root": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-community/netinfo",
       "name": "@react-native-community/netinfo",
       "platforms": {
         "ios": {
-          "podspecPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-community/netinfo/react-native-netinfo.podspec",
+          "podspecPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-community/netinfo/react-native-netinfo.podspec",
           "version": "11.4.1",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-community/netinfo/android",
+          "sourceDir": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-community/netinfo/android",
           "packageImportPath": "import com.reactnativecommunity.netinfo.NetInfoPackage;",
           "packageInstance": "new NetInfoPackage()",
           "buildTypes": [],
           "componentDescriptors": [],
-          "cmakeListsPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-community/netinfo/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-community/netinfo/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -145,11 +145,11 @@
       }
     },
     "@react-native-firebase/app": {
-      "root": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-firebase/app",
+      "root": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-firebase/app",
       "name": "@react-native-firebase/app",
       "platforms": {
         "ios": {
-          "podspecPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-firebase/app/RNFBApp.podspec",
+          "podspecPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-firebase/app/RNFBApp.podspec",
           "version": "23.7.0",
           "configurations": [],
           "scriptPhases": [
@@ -164,12 +164,12 @@
           ]
         },
         "android": {
-          "sourceDir": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-firebase/app/android",
+          "sourceDir": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-firebase/app/android",
           "packageImportPath": "import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;",
           "packageInstance": "new ReactNativeFirebaseAppPackage()",
           "buildTypes": [],
           "componentDescriptors": [],
-          "cmakeListsPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-firebase/app/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-firebase/app/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -178,22 +178,22 @@
       }
     },
     "@react-native-firebase/auth": {
-      "root": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-firebase/auth",
+      "root": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-firebase/auth",
       "name": "@react-native-firebase/auth",
       "platforms": {
         "ios": {
-          "podspecPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-firebase/auth/RNFBAuth.podspec",
+          "podspecPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-firebase/auth/RNFBAuth.podspec",
           "version": "23.7.0",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-firebase/auth/android",
+          "sourceDir": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-firebase/auth/android",
           "packageImportPath": "import io.invertase.firebase.auth.ReactNativeFirebaseAuthPackage;",
           "packageInstance": "new ReactNativeFirebaseAuthPackage()",
           "buildTypes": [],
           "componentDescriptors": [],
-          "cmakeListsPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-firebase/auth/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-firebase/auth/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -202,22 +202,22 @@
       }
     },
     "@react-native-firebase/firestore": {
-      "root": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-firebase/firestore",
+      "root": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-firebase/firestore",
       "name": "@react-native-firebase/firestore",
       "platforms": {
         "ios": {
-          "podspecPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-firebase/firestore/RNFBFirestore.podspec",
+          "podspecPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-firebase/firestore/RNFBFirestore.podspec",
           "version": "23.7.0",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-firebase/firestore/android",
+          "sourceDir": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-firebase/firestore/android",
           "packageImportPath": "import io.invertase.firebase.firestore.ReactNativeFirebaseFirestorePackage;",
           "packageInstance": "new ReactNativeFirebaseFirestorePackage()",
           "buildTypes": [],
           "componentDescriptors": [],
-          "cmakeListsPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-firebase/firestore/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-firebase/firestore/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -226,22 +226,22 @@
       }
     },
     "@react-native-firebase/messaging": {
-      "root": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-firebase/messaging",
+      "root": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-firebase/messaging",
       "name": "@react-native-firebase/messaging",
       "platforms": {
         "ios": {
-          "podspecPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-firebase/messaging/RNFBMessaging.podspec",
+          "podspecPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-firebase/messaging/RNFBMessaging.podspec",
           "version": "23.7.0",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-firebase/messaging/android",
+          "sourceDir": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-firebase/messaging/android",
           "packageImportPath": "import io.invertase.firebase.messaging.ReactNativeFirebaseMessagingPackage;",
           "packageInstance": "new ReactNativeFirebaseMessagingPackage()",
           "buildTypes": [],
           "componentDescriptors": [],
-          "cmakeListsPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/@react-native-firebase/messaging/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/@react-native-firebase/messaging/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -250,17 +250,17 @@
       }
     },
     "react-native-gesture-handler": {
-      "root": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-gesture-handler",
+      "root": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-gesture-handler",
       "name": "react-native-gesture-handler",
       "platforms": {
         "ios": {
-          "podspecPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-gesture-handler/RNGestureHandler.podspec",
+          "podspecPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-gesture-handler/RNGestureHandler.podspec",
           "version": "2.29.1",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-gesture-handler/android",
+          "sourceDir": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-gesture-handler/android",
           "packageImportPath": "import com.swmansion.gesturehandler.RNGestureHandlerPackage;",
           "packageInstance": "new RNGestureHandlerPackage()",
           "buildTypes": [],
@@ -269,7 +269,7 @@
             "RNGestureHandlerButtonComponentDescriptor",
             "RNGestureHandlerRootViewComponentDescriptor"
           ],
-          "cmakeListsPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -278,23 +278,23 @@
       }
     },
     "react-native-keychain": {
-      "root": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-keychain",
+      "root": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-keychain",
       "name": "react-native-keychain",
       "platforms": {
         "ios": {
-          "podspecPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-keychain/RNKeychain.podspec",
+          "podspecPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-keychain/RNKeychain.podspec",
           "version": "10.0.0",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-keychain/android",
+          "sourceDir": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-keychain/android",
           "packageImportPath": "import com.oblador.keychain.KeychainPackage;",
           "packageInstance": "new KeychainPackage()",
           "buildTypes": [],
           "libraryName": "RNKeychainSpec",
           "componentDescriptors": [],
-          "cmakeListsPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-keychain/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-keychain/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -303,23 +303,23 @@
       }
     },
     "react-native-reanimated": {
-      "root": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-reanimated",
+      "root": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-reanimated",
       "name": "react-native-reanimated",
       "platforms": {
         "ios": {
-          "podspecPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-reanimated/RNReanimated.podspec",
+          "podspecPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-reanimated/RNReanimated.podspec",
           "version": "4.2.0",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-reanimated/android",
+          "sourceDir": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-reanimated/android",
           "packageImportPath": "import com.swmansion.reanimated.ReanimatedPackage;",
           "packageInstance": "new ReanimatedPackage()",
           "buildTypes": [],
           "libraryName": "rnreanimated",
           "componentDescriptors": [],
-          "cmakeListsPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-reanimated/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-reanimated/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -328,17 +328,17 @@
       }
     },
     "react-native-safe-area-context": {
-      "root": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-safe-area-context",
+      "root": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-safe-area-context",
       "name": "react-native-safe-area-context",
       "platforms": {
         "ios": {
-          "podspecPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-safe-area-context/react-native-safe-area-context.podspec",
+          "podspecPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-safe-area-context/react-native-safe-area-context.podspec",
           "version": "5.6.2",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-safe-area-context/android",
+          "sourceDir": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-safe-area-context/android",
           "packageImportPath": "import com.th3rdwave.safeareacontext.SafeAreaContextPackage;",
           "packageInstance": "new SafeAreaContextPackage()",
           "buildTypes": [],
@@ -347,7 +347,7 @@
             "RNCSafeAreaProviderComponentDescriptor",
             "RNCSafeAreaViewComponentDescriptor"
           ],
-          "cmakeListsPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-safe-area-context/android/src/main/jni/CMakeLists.txt",
+          "cmakeListsPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-safe-area-context/android/src/main/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -356,17 +356,17 @@
       }
     },
     "react-native-screens": {
-      "root": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-screens",
+      "root": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-screens",
       "name": "react-native-screens",
       "platforms": {
         "ios": {
-          "podspecPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-screens/RNScreens.podspec",
+          "podspecPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-screens/RNScreens.podspec",
           "version": "4.19.0",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-screens/android",
+          "sourceDir": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-screens/android",
           "packageImportPath": "import com.swmansion.rnscreens.RNScreensPackage;",
           "packageInstance": "new RNScreensPackage()",
           "buildTypes": [],
@@ -386,7 +386,7 @@
             "RNSBottomTabsComponentDescriptor",
             "RNSSafeAreaViewComponentDescriptor"
           ],
-          "cmakeListsPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-screens/android/src/main/jni/CMakeLists.txt",
+          "cmakeListsPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-screens/android/src/main/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -395,23 +395,23 @@
       }
     },
     "react-native-worklets": {
-      "root": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-worklets",
+      "root": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-worklets",
       "name": "react-native-worklets",
       "platforms": {
         "ios": {
-          "podspecPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-worklets/RNWorklets.podspec",
+          "podspecPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-worklets/RNWorklets.podspec",
           "version": "0.7.1",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-worklets/android",
+          "sourceDir": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-worklets/android",
           "packageImportPath": "import com.swmansion.worklets.WorkletsPackage;",
           "packageInstance": "new WorkletsPackage()",
           "buildTypes": [],
           "libraryName": "rnworklets",
           "componentDescriptors": [],
-          "cmakeListsPath": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/node_modules/react-native-worklets/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "/Users/macmini6/WorkSpace/TaskManagement/node_modules/react-native-worklets/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -582,7 +582,7 @@
         {
           "name": "--path <path>",
           "description": "Path to the React Native project root.",
-          "default": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement"
+          "default": "/Users/macmini6/WorkSpace/TaskManagement"
         },
         {
           "name": "--platform <string>",
@@ -882,7 +882,7 @@
   "assets": [],
   "project": {
     "ios": {
-      "sourceDir": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/ios",
+      "sourceDir": "/Users/macmini6/WorkSpace/TaskManagement/ios",
       "xcodeProject": {
         "name": "TaskManagement.xcodeproj",
         "path": ".",
@@ -891,7 +891,7 @@
       "assets": []
     },
     "android": {
-      "sourceDir": "/Users/cn17/Workspace/React_Native/ASSIGNMENT/TaskManagement/android",
+      "sourceDir": "/Users/macmini6/WorkSpace/TaskManagement/android",
       "appName": "app",
       "packageName": "com.taskmanagement",
       "applicationId": "com.taskmanagement",
