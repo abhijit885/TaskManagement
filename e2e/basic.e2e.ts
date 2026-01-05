@@ -1,4 +1,4 @@
-import { device, expect, element, by } from 'detox';
+import { device } from 'detox';
 
 describe('Basic App Launch', () => {
   it('should launch app', async () => {

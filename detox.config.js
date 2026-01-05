@@ -13,7 +13,7 @@ module.exports = {
     'android.emu.debug': {
       type: 'android.emulator',
       device: {
-        avdName: 'Pixel_4_API_33',
+        avdName: 'test',
       },
       app: {
         binaryPath: 'android/app/build/outputs/apk/debug/app-debug.apk',

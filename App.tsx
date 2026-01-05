@@ -1,5 +1,5 @@
 import { Appearance, LogBox, PermissionsAndroid, Platform, View, Text } from 'react-native';
-import { Provider, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ThemeProvider } from './lib/src/theme/ThemeContext';
 import AppNavigator from './lib/src/navigation/AppNavigator';
 import notifee, { EventType } from '@notifee/react-native';
@@ -17,7 +17,7 @@ import { onDisplayLocalNotification } from './lib/src/common/notifeeService';
 function App() {
   const [localToken, setLocalToken] = React.useState<any>(null);
   const navigationRef = React.createRef<any>();
-  const [networkConnected, setNetworkConnected] = useState(true);
+  const [, setNetworkConnected] = useState(true);
   const dispatch = useDispatch();
   const verifyToken = useSelector<any>(state => state.user);
   console.log('verifyToken in App.tsx', verifyToken);
@@ -30,7 +30,7 @@ function App() {
     getToken();
     requestUserPermission();
     //console.log('FIREBASE_API_KEY>>>>', FIREBASE_API_KEY);
-  }, [verifyToken]);
+  }, [verifyToken, getToken, requestUserPermission]);
 
   async function requestUserPermission() {
     // const authorizationStatus = await messaging().requestPermission();
@@ -59,6 +59,13 @@ function App() {
     if (fcmToken) {
       console.log('FCM token', fcmToken, Platform.OS);
       await AsyncStorage.setItem('fcmToken', fcmToken);
+    }
+  };
+
+  const navigationFunction = async (remoteMessage: any) => {
+    console.log('remoteMessage', remoteMessage);
+    if (verifyToken) {
+      navigationRef.current?.navigate('Home');
     }
   };
 
@@ -119,14 +126,7 @@ function App() {
       unsubscribe_notifee_foreground();
       unsubscribe_notify();
     };
-  }, [localToken]);
-
-  const navigationFunction = async (remoteMessage: any) => {
-    console.log('remoteMessage', remoteMessage);
-    if (verifyToken) {
-      navigationRef.current?.navigate('Home');
-    }
-  };
+  }, [localToken, navigationFunction]);
 
   // For E2E testing, use a simplified view
   if (__DEV__ && process.env.DETOX === 'true') {

@@ -9,6 +9,8 @@ module.exports = {
   ],
   testMatch: [
     '**/__tests__/**/*.test.(js|ts|tsx)',
+    '!**/e2e/**/*.test.(js|ts|tsx)',
+    '!**/e2e/**/*.e2e.(js|ts|tsx)',
   ],
   collectCoverage: true,
   collectCoverageFrom: [
